@@ -869,6 +869,7 @@ impl SettingID {
             chroma_subcarrier => "chroma_subcarrier",
             color_space => "color_space",
             v_bandwidth => "v_bandwidth",
+            PALmode::PALparams => "pal_params",
         }
     }
 }
