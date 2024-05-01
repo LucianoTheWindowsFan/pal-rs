@@ -7,9 +7,14 @@
 
 ---
 
-**pal-rs** is a video effect which emulates PAL and VHS video artifacts. Based on NTSC-RS, It can be used as an After Effects, Premiere, or OpenFX plugin, or as a standalone application.
+**pal-rs** is a video effect which emulates PAL and VHS video artifacts. Based on ntsc-rs, It can be used as an After Effects, Premiere, or OpenFX plugin, or as a standalone application.
 
 ![Screenshot of the ntsc-rs standalone application](./docs/img/appdemo.png)
+
+## To do
+* On chroma phase error, remove the tinting issue and replace it with the saturation issue.
+* Better emulation of PAL artifacts.
+* Simulate Hanover bars as an option.
 
 ## Download
 
