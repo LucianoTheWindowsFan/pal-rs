@@ -332,6 +332,7 @@ pub struct NtscEffect {
     pub chroma_vert_blend: bool,
     pub chroma_lowpass_out: ChromaLowpass,
     pub bandwidth_scale: f32,
+    pub pal_mode: f32,
 }
 
 impl Default for NtscEffect {
@@ -361,6 +362,7 @@ impl Default for NtscEffect {
             vhs_settings: Some(VHSSettings::default()),
             chroma_vert_blend: true,
             bandwidth_scale: 1.0,
+            pal_mode: 390158450.0,
         }
     }
 }
@@ -453,6 +455,7 @@ pub enum SettingID {
     USE_FIELD,
     TRACKING_NOISE_NOISE_INTENSITY,
     BANDWIDTH_SCALE,
+    PAL_MODE,
     CHROMA_DEMODULATION,
     SNOW_ANISOTROPY,
     TRACKING_NOISE_SNOW_ANISOTROPY,
@@ -590,6 +593,7 @@ macro_rules! impl_get_field_ref {
                 .$borrow_op(),
 
             SettingID::BANDWIDTH_SCALE => $settings.bandwidth_scale.$borrow_op(),
+            SettingID::PAL_MODE => $settings.pal_mode.$borrow_op(),
             SettingID::RANDOM_SEED => $settings.random_seed.$borrow_op(),
 
             SettingID::CHROMA_PHASE_ERROR => $settings.chroma_phase_error.$borrow_op(),
@@ -922,6 +926,31 @@ impl SettingsList {
                 description: Some("Horizontally scale the effect by this amount."),
                 kind: SettingKind::FloatRange { range: 0.125..=8.0, logarithmic: false, default_value: default_settings.bandwidth_scale },
                 id: SettingID::BANDWIDTH_SCALE,
+            },
+            SettingDescriptor {
+                label: "PAL mode",
+                description: Some("Choose which PAL variant will be simulated."),
+                kind: SettingKind::Enumeration {
+                    options: vec![
+                        MenuItem {
+                            label: "PAL-B/G/D/K/I/H",
+                            description: Some("The typical PAL variant. Used in most European countries, as well as some African countries, most Oceanian countries and some Asian countries."),
+                            index: 390158450.0,
+                        },
+                        MenuItem {
+                            label: "PAL-M",
+                            description: Some("PAL variant used in Brazil. It has the same color subcarrier frequency as NTSC."),
+                            index: 314653778.0,
+                        },
+                        MenuItem {
+                            label: "PAL-N",
+                            description: Some("Another South American PAL variant, this time used in Argentina, Paraguay and Uruguay. Besides the different color subcarrier frequency, it also uses the same color space as SECAM."),
+                            index: 315220950.0,
+                        },
+                    ],
+                    default_value: default_settings.pal_mode.to_u32().unwrap(),
+                },
+                id: SettingID::PAL_MODE,
             },
             SettingDescriptor {
                 label: "Use field",
