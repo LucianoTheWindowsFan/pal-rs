@@ -6,6 +6,10 @@ use glam::{Mat3A, Vec3A};
 use image::RgbImage;
 use rayon::prelude::*;
 
+mod pal_param {
+    pub const color_space: f32,
+}
+
 #[inline(always)]
 pub fn rgb_to_yiq([r, g, b]: [f32; 3]) -> [f32; 3] {
     if color_space == 0.0 {
