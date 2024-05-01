@@ -629,7 +629,7 @@ macro_rules! impl_get_field_ref {
                 .$borrow_op(),
 
             SettingID::BANDWIDTH_SCALE => $settings.bandwidth_scale.$borrow_op(),
-            SettingID::PAL_MODE => $settings.pal_mode.$borrow_op(),
+            SettingID::PAL_MODE => $settings.pal_mode.chroma_subcarrier.color_space.v_bandwidth.$borrow_op(),
             SettingID::RANDOM_SEED => $settings.random_seed.$borrow_op(),
 
             SettingID::CHROMA_PHASE_ERROR => $settings.chroma_phase_error.$borrow_op(),
