@@ -15,7 +15,7 @@ use crate::{
     yiq_fielding::{YiqField, YiqOwned, YiqView},
 };
 
-pub use crate::settings;
+pub use crate::settings::*;
 
 /// Settings common to each invocation of the effect. Passed to each individual effect function.
 struct CommonInfo {
