@@ -23,6 +23,7 @@ struct CommonInfo {
     frame_num: usize,
     bandwidth_scale: f32,
     chroma_subcarrier: f32,
+    v_bandwidth: f32,
 }
 
 // 315/88 Mhz rate * 4
