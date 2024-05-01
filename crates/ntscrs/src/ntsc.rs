@@ -13,6 +13,7 @@ use crate::{
     random::{Geometric, Seeder},
     shift::{shift_row, shift_row_to, BoundaryHandling},
     yiq_fielding::{YiqField, YiqOwned, YiqView},
+    settings::{chroma_subcarrier, v_bandwidth, YiqView},
 };
 
 pub use crate::settings::*;
@@ -22,10 +23,6 @@ struct CommonInfo {
     seed: u64,
     frame_num: usize,
     bandwidth_scale: f32,
-}
-mod pal_param {
-    pub const chroma_subcarrier: f32 = 1.0;
-    pub const v_bandwidth: f32 = 2.0;
 }
 
 // 315/88 Mhz rate * 4
