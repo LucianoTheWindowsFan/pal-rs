@@ -997,6 +997,8 @@ impl NtscEffect {
             seed,
             frame_num,
             bandwidth_scale: self.bandwidth_scale,
+            chroma_subcarrier,
+            v_bandwidth,
         };
 
         let mut scratch_buffer = ScratchBuffer::new(yiq.y.len());
