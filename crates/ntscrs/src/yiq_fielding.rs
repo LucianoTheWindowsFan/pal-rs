@@ -5,10 +5,6 @@ use image::RgbImage;
 use rayon::prelude::*;
 
 use crate::{
-    filter::TransferFunction,
-    random::{Geometric, Seeder},
-    shift::{shift_row, shift_row_to, BoundaryHandling},
-    yiq_fielding::{YiqField, YiqOwned, YiqView},
     settings::{color_space},
 };
 
