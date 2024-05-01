@@ -55,28 +55,28 @@ pub enum PALmode {
 
 #[derive(Clone, Debug, PartialEq)]
 pub(crate) struct PALparams {
-    pub chroma_subcarrier: u32,
-    pub color_space: u32,
-    pub v_bandwidth: u32,
+    pub chroma_subcarrier: f32,
+    pub color_space: f32,
+    pub v_bandwidth: f32,
 }
 
 impl PALmode {
     pub(crate) fn filter_params(&self) -> PALparams {
         match self {
             PALmode::EurPAL => PALparams {
-                chroma_subcarrier: 390158450,
-                color_space: 0,
-                v_bandwidth: 1300000,
+                chroma_subcarrier: 390158450.0,
+                color_space: 0.0,
+                v_bandwidth: 1300000.0,
             },
             PALmode::BraPAL => PALparams {
-                chroma_subcarrier: 314653778,
-                color_space: 0,
-                v_bandwidth: 600000,
+                chroma_subcarrier: 314653778.0,
+                color_space: 0.0,
+                v_bandwidth: 600000.0,
             },
             PALmode::ArgPAL => PALparams {
-                chroma_subcarrier: 315220950,
-                color_space: 1,
-                v_bandwidth: 600000,
+                chroma_subcarrier: 315220950.0,
+                color_space: 1.0,
+                v_bandwidth: 600000.0,
             },
         }
     }
