@@ -865,6 +865,9 @@ impl SettingID {
             SettingID::CHROMA_NOISE_DETAIL => "chroma_noise_detail",
             SettingID::LUMA_SMEAR => "luma_smear",
             SettingID::FILTER_TYPE => "filter_type",
+            PALparams::chroma_subcarrier => "chroma_subcarrier",
+            PALparams::color_space => "color_space",
+            PALparams::v_bandwidth => "v_bandwidth",
         }
     }
 }
