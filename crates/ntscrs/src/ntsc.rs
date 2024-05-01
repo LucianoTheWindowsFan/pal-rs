@@ -13,7 +13,7 @@ use crate::{
     random::{Geometric, Seeder},
     shift::{shift_row, shift_row_to, BoundaryHandling},
     yiq_fielding::{YiqField, YiqOwned, YiqView},
-    settings::{chroma_subcarrier, v_bandwidth},
+    settings::{PALparams::chroma_subcarrier, PALparams::v_bandwidth},
 };
 
 pub use crate::settings::*;
@@ -28,7 +28,7 @@ struct CommonInfo {
 // 315/88 Mhz rate * 4
 // TODO: why do we multiply by 4? composite-video-simulator does this for every filter and ntscqt defines NTSC_RATE the
 // same way as we do here.
-const NTSC_RATE: f32 = (chroma_subcarrier / 88.0) * 4.0;
+const NTSC_RATE: f32 = (PALparams::chroma_subcarrier / 88.0) * 4.0;
 
 /// Create a simple constant-k lowpass filter with the given frequency cutoff, which can then be used to filter a signal.
 pub fn make_lowpass(cutoff: f32, rate: f32) -> TransferFunction {
@@ -1021,7 +1021,7 @@ impl NtscEffect {
 
         if self.composite_preemphasis > 0.0 {
             let preemphasis_filter = make_lowpass(
-                (chroma_subcarrier / 88.0 / 2.0) * self.bandwidth_scale,
+                (PALparams::chroma_subcarrier / 88.0 / 2.0) * self.bandwidth_scale,
                 NTSC_RATE * self.bandwidth_scale,
             );
             filter_plane(
