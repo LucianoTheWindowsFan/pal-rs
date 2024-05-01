@@ -8,12 +8,15 @@ use rayon::prelude::*;
 
 #[inline(always)]
 pub fn rgb_to_yiq([r, g, b]: [f32; 3]) -> [f32; 3] {
-    if settings::color_space == 0.0 {
+    if color_space == 0.0 {
     const YIQ_MATRIX: Mat3A = Mat3A::from_cols(
         Vec3A::new(0.299, -0.14713, 0.615),
         Vec3A::new(0.587, -0.28886, -0.51499),
         Vec3A::new(0.114, 0.436, -0.10001),
     );
+
+    (YIQ_MATRIX * Vec3A::new(r, g, b)).into()
+        
     } else
     {
     const YIQ_MATRIX: Mat3A = Mat3A::from_cols(
@@ -21,19 +24,21 @@ pub fn rgb_to_yiq([r, g, b]: [f32; 3]) -> [f32; 3] {
         Vec3A::new(0.587, -0.883, 1.116),
         Vec3A::new(0.114, 1.333, 0.217),
     );
-    }
 
     (YIQ_MATRIX * Vec3A::new(r, g, b)).into()
+    
+    }
 }
 
 #[inline(always)]
 pub fn yiq_to_rgb([y, i, q]: [f32; 3]) -> [f32; 3] {
-    if settings::color_space == 0.0 {
+    if color_space == 0.0 {
     const RGB_MATRIX: Mat3A = Mat3A::from_cols(
         Vec3A::new(1.0, 1.0, 1.0),
         Vec3A::new(0.0, -0.39465, 2.03211),
         Vec3A::new(1.13983, -0.5806, 0.0),
     );
+    (RGB_MATRIX * Vec3A::new(y, i, q)).into()
     } else
     {
     const RGB_MATRIX: Mat3A = Mat3A::from_cols(
@@ -41,9 +46,9 @@ pub fn yiq_to_rgb([y, i, q]: [f32; 3]) -> [f32; 3] {
         Vec3A::new(0.000092303716148, -0.129132898890509, 0.664679059978955),
         Vec3A::new(-0.525912630661865, 0.267899328207599, -0.000079202543533),
     );
+    (RGB_MATRIX * Vec3A::new(y, i, q)).into()
     }
 
-    (RGB_MATRIX * Vec3A::new(y, i, q)).into()
 }
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
