@@ -514,7 +514,9 @@ pub enum SettingID {
 
     VHS_SHARPEN_ENABLED,
     VHS_SHARPEN_FREQUENCY,
-    
+
+    PAL_PARAMS,
+
 }
 
 macro_rules! impl_get_field_ref {
