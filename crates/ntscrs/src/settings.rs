@@ -971,17 +971,17 @@ impl SettingsList {
                         MenuItem {
                             label: "PAL-B/G/D/K/I/H",
                             description: Some("The typical PAL variant. Used in most European countries, as well as some African countries, most Oceanian countries and some Asian countries."),
-                            index: PALmode::EurPAL,
+                            index: PALmode::EurPAL.to_u32().unwrap(),
                         },
                         MenuItem {
                             label: "PAL-M",
                             description: Some("PAL variant used in Brazil. It has the same color subcarrier frequency as NTSC."),
-                            index: PALmode::BraPAL,
+                            index: PALmode::BraPAL.to_u32().unwrap(),
                         },
                         MenuItem {
                             label: "PAL-N",
                             description: Some("Another South American PAL variant, this time used in Argentina, Paraguay and Uruguay. Besides the different color subcarrier frequency, it also uses the same color space as SECAM."),
-                            index: PALmode::ArgPAL,
+                            index: PALmode::ArgPAL.to_u32().unwrap(),
                         },
                     ],
                     default_value: default_settings.pal_mode.to_u32().unwrap(),
