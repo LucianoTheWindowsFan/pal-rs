@@ -46,6 +46,7 @@ impl UseField {
     }
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq, FromPrimitive, ToPrimitive)]
 pub enum PALmode {
     EurPAL,
     BraPAL,
