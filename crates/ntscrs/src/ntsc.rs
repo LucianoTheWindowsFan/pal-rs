@@ -24,8 +24,8 @@ struct CommonInfo {
     bandwidth_scale: f32,
 }
 mod pal_param {
-    pub chroma_subcarrier: f32,
-    pub v_bandwidth: f32,
+    pub const chroma_subcarrier: f32,
+    pub const v_bandwidth: f32,
 }
 
 // 315/88 Mhz rate * 4
