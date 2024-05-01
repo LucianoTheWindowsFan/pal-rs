@@ -368,6 +368,7 @@ pub struct NtscEffect {
     pub chroma_lowpass_out: ChromaLowpass,
     pub bandwidth_scale: f32,
     pub pal_mode: PALmode,
+    pub pal_params: PALparams,
 }
 
 impl Default for NtscEffect {
@@ -398,7 +399,6 @@ impl Default for NtscEffect {
             chroma_vert_blend: true,
             bandwidth_scale: 1.0,
             pal_mode: PALmode::EurPAL,
-            pal_params: 0.0,
         }
     }
 }
