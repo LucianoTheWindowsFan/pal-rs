@@ -15,7 +15,7 @@ use crate::{
     yiq_fielding::{YiqField, YiqOwned, YiqView},
 };
 
-pub use crate::settings::*;
+pub use crate::settings;
 
 /// Settings common to each invocation of the effect. Passed to each individual effect function.
 struct CommonInfo {
@@ -1020,7 +1020,7 @@ impl NtscEffect {
 
         if self.composite_preemphasis > 0.0 {
             let preemphasis_filter = make_lowpass(
-                (info.chroma_subcarrier / 88.0 / 2.0) * self.bandwidth_scale,
+                (chroma_subcarrier / 88.0 / 2.0) * self.bandwidth_scale,
                 NTSC_RATE * self.bandwidth_scale,
             );
             filter_plane(
