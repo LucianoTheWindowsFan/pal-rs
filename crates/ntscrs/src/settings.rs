@@ -399,6 +399,7 @@ impl Default for NtscEffect {
             chroma_vert_blend: true,
             bandwidth_scale: 1.0,
             pal_mode: PALmode::EurPAL,
+            pal_params: 0.0,
         }
     }
 }
