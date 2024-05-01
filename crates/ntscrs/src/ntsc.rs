@@ -25,7 +25,6 @@ struct CommonInfo {
 }
 mod pal_param {
     pub chroma_subcarrier: f32,
-    pub color_space: f32,
     pub v_bandwidth: f32,
 }
 
