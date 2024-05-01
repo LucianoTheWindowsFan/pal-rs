@@ -7,7 +7,7 @@ use image::RgbImage;
 use rayon::prelude::*;
 
 mod pal_param {
-    pub const COLOR_SPACE: f32,
+    pub const color_space: f32 = 0,
 }
 
 #[inline(always)]
