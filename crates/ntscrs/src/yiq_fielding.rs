@@ -1,5 +1,7 @@
 use std::{convert::identity, mem::MaybeUninit};
 
+mod settings;
+
 use glam::{Mat3A, Vec3A};
 use image::RgbImage;
 use rayon::prelude::*;
