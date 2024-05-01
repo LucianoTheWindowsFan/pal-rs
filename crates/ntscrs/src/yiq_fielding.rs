@@ -7,7 +7,7 @@ use image::RgbImage;
 use rayon::prelude::*;
 
 mod pal_param {
-    pub const color_space: f32;
+    pub const color_space: f32 = 0;
 }
 
 #[inline(always)]
@@ -36,7 +36,7 @@ pub fn rgb_to_yiq([r, g, b]: [f32; 3]) -> [f32; 3] {
 
 #[inline(always)]
 pub fn yiq_to_rgb([y, i, q]: [f32; 3]) -> [f32; 3] {
-    if color_space == 0.0 {
+    if pal_param::color_space == 0.0 {
     const RGB_MATRIX: Mat3A = Mat3A::from_cols(
         Vec3A::new(1.0, 1.0, 1.0),
         Vec3A::new(0.0, -0.39465, 2.03211),
