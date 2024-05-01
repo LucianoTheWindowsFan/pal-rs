@@ -54,9 +54,9 @@ pub enum PALmode {
 }
 
 pub(crate) struct PALparams {
-    pub chroma_subcarrier: val,
-    pub color_space: val,
-    pub v_bandwidth: val,
+    pub chroma_subcarrier: f32,
+    pub color_space: f32,
+    pub v_bandwidth: f32,
 }
 
 impl PALmode {
@@ -399,7 +399,7 @@ impl Default for NtscEffect {
             chroma_vert_blend: true,
             bandwidth_scale: 1.0,
             pal_mode: PALmode::EurPAL,
-            pal_params: PALparams,
+            pal_params: PALparams { chroma_subcarrier: val, color_space: val, v_bandwidth: val },
         }
     }
 }
