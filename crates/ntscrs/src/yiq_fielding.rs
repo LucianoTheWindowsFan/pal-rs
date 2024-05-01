@@ -1,6 +1,6 @@
 use std::{convert::identity, mem::MaybeUninit};
 
-pub use crate::settings::*;
+pub use crate::settings;
 
 use glam::{Mat3A, Vec3A};
 use image::RgbImage;
