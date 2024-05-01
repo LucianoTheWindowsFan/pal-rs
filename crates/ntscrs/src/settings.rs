@@ -64,19 +64,19 @@ impl PALmode {
     pub(crate) fn filter_params(&self) -> PALparams {
         match self {
             PALmode::EurPAL => PALparams {
-                chroma_subcarrier: 390158450.0,
-                color_space: 0.0,
-                v_bandwidth: 1300000.0,
+                chroma_subcarrier: 390158450,
+                color_space: 0,
+                v_bandwidth: 1300000,
             },
             PALmode::BraPAL => PALparams {
-                chroma_subcarrier: 314653778.0,
-                color_space: 0.0,
-                v_bandwidth: 600000.0,
+                chroma_subcarrier: 314653778,
+                color_space: 0,
+                v_bandwidth: 600000,
             },
             PALmode::ArgPAL => PALparams {
-                chroma_subcarrier: 315220950.0,
-                color_space: 1.0,
-                v_bandwidth: 600000.0,
+                chroma_subcarrier: 315220950,
+                color_space: 1,
+                v_bandwidth: 600000,
             },
         }
     }
