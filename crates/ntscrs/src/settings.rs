@@ -817,6 +817,7 @@ impl SettingID {
             SettingID::USE_FIELD => "use_field",
             SettingID::TRACKING_NOISE_NOISE_INTENSITY => "tracking_noise_noise_intensity",
             SettingID::BANDWIDTH_SCALE => "bandwidth_scale",
+            SettingID::PAL_MODE => "pal_mode",
             SettingID::CHROMA_DEMODULATION => "chroma_demodulation",
             SettingID::SNOW_ANISOTROPY => "snow_anisotropy",
             SettingID::TRACKING_NOISE_SNOW_ANISOTROPY => "tracking_noise_snow_anisotropy",
