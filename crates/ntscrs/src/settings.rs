@@ -53,12 +53,11 @@ pub enum PALmode {
     ArgPAL,
 }
 
+#[derive(FullSettings, Clone, Debug, PartialEq)]
 pub(crate) struct PALparams {
     pub chroma_subcarrier: f32,
     pub color_space: f32,
     pub v_bandwidth: f32,
-    Debug,
-    Clone,
 }
 
 impl PALmode {
