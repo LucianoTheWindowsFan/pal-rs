@@ -514,6 +514,11 @@ pub enum SettingID {
 
     VHS_SHARPEN_ENABLED,
     VHS_SHARPEN_FREQUENCY,
+
+    CHROMA_SUBCARRIER,
+    COLOR_SPACE,
+    V_BANDWIDTH,
+    
 }
 
 macro_rules! impl_get_field_ref {
