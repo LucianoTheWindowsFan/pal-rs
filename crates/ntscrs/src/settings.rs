@@ -46,6 +46,40 @@ impl UseField {
     }
 }
 
+pub enum PALmode {
+    EurPAL,
+    BraPAL,
+    ArgPAL,
+}
+
+pub(crate) struct PALparams {
+    pub chroma_subcarrier: f32,
+    pub color_space: f32,
+    pub v_bandwidth: Option<ColorSpace>,
+}
+
+impl PALmode {
+    pub(crate) fn filter_params(&self) -> PALparams {
+        match self {
+            PALmode:EurPAL => PALparams {
+                chroma_subcarrier: 390158450.0,
+                color_space: Some(ColorSpace::YUV),
+                v_bandwidth: 1300000.0,
+            },
+            PALmode:BraPAL => PALparams {
+                chroma_subcarrier: 314653778.0,
+                color_space: Some(ColorSpace::YUV),
+                v_bandwidth: 600000.0,
+            },
+            PALmode:ArgPAL => PALparams {
+                chroma_subcarrier: 315220950.0,
+                color_space: Some(ColorSpace::YDbDr),
+                v_bandwidth: 600000.0,
+            },
+        }
+    }
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq, FromPrimitive, ToPrimitive)]
 pub enum FilterType {
     ConstantK = 0,
@@ -332,7 +366,7 @@ pub struct NtscEffect {
     pub chroma_vert_blend: bool,
     pub chroma_lowpass_out: ChromaLowpass,
     pub bandwidth_scale: f32,
-    pub pal_mode: f32,
+    pub pal_mode: Option<PALmode>,
 }
 
 impl Default for NtscEffect {
@@ -362,7 +396,7 @@ impl Default for NtscEffect {
             vhs_settings: Some(VHSSettings::default()),
             chroma_vert_blend: true,
             bandwidth_scale: 1.0,
-            pal_mode: 390158450.0,
+            pal_mode: PALmode::EurPAL,
         }
     }
 }
@@ -936,17 +970,17 @@ impl SettingsList {
                         MenuItem {
                             label: "PAL-B/G/D/K/I/H",
                             description: Some("The typical PAL variant. Used in most European countries, as well as some African countries, most Oceanian countries and some Asian countries."),
-                            index: 390158450.0,
+                            index: PALmode::EurPAL,
                         },
                         MenuItem {
                             label: "PAL-M",
                             description: Some("PAL variant used in Brazil. It has the same color subcarrier frequency as NTSC."),
-                            index: 314653778.0,
+                            index: PALmode::BraPAL,
                         },
                         MenuItem {
                             label: "PAL-N",
                             description: Some("Another South American PAL variant, this time used in Argentina, Paraguay and Uruguay. Besides the different color subcarrier frequency, it also uses the same color space as SECAM."),
-                            index: 315220950.0,
+                            index: PALmode::ArgPAL,
                         },
                     ],
                     default_value: default_settings.pal_mode.to_u32().unwrap(),
