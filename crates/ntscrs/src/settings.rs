@@ -53,7 +53,7 @@ pub enum PALmode {
     ArgPAL,
 }
 
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub(crate) struct PALparams {
     chroma_subcarrier: f32,
     color_space: f32,
@@ -339,7 +339,7 @@ impl<T: Default> Default for SettingsBlock<T> {
     }
 }
 
-#[derive(FullSettings, Clone, Copy, Debug, PartialEq)]
+#[derive(FullSettings, Clone, Debug, PartialEq)]
 #[non_exhaustive]
 pub struct NtscEffect {
     pub random_seed: i32,
