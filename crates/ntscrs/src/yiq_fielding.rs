@@ -5,7 +5,7 @@ use image::RgbImage;
 use rayon::prelude::*;
 
 use crate::{
-    settings::{PALparams.color_space},
+    settings::{color_space},
 };
 
 pub use crate::settings::*;
