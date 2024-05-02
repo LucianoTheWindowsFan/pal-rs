@@ -637,6 +637,7 @@ macro_rules! impl_get_field_ref {
             SettingID::PAL_MODE => $settings.pal_mode.$borrow_op(),
             SettingID::PAL_PARAMS => $settings
                 .pal_params
+                .settings
                 .chroma_subcarrier
                 .color_space
                 .v_bandwidth
