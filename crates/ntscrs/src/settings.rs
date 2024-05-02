@@ -59,9 +59,9 @@ pub(crate) struct PALparams {
     color_space: f32,
     v_bandwidth: f32,
 }
-    static mut chroma_subcarrier: f32 = 0;
-    static mut color_space: f32 = 1;
-    static mut v_bandwidth: f32 = 2;
+    static chroma_subcarrier: f32 = 0;
+    static color_space: f32 = 1;
+    static v_bandwidth: f32 = 2;
 
 impl PALmode {
     pub(crate) fn filter_params(&self) -> PALparams {
