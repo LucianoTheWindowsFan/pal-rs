@@ -869,7 +869,7 @@ impl SettingID {
             SettingID::CHROMA_NOISE_FREQUENCY => "chroma_noise_frequency",
             SettingID::CHROMA_NOISE_DETAIL => "chroma_noise_detail",
             SettingID::LUMA_SMEAR => "luma_smear",
-            SettingID::FILTER_TYPE => "filter_type
+            SettingID::FILTER_TYPE => "filter_type",
             PALparams => "pal_params",
         }
     }
