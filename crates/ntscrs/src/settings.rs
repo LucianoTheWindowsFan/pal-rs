@@ -55,9 +55,9 @@ pub enum PALmode {
 
 #[derive(Clone, Debug, PartialEq)]
 pub(crate) struct PALparams {
-    chroma_subcarrier: f32,
-    color_space: f32,
-    v_bandwidth: f32,
+    static chroma_subcarrier: f32,
+    static color_space: f32,
+    static v_bandwidth: f32,
 }
 
 impl PALmode {
@@ -869,10 +869,7 @@ impl SettingID {
             SettingID::CHROMA_NOISE_FREQUENCY => "chroma_noise_frequency",
             SettingID::CHROMA_NOISE_DETAIL => "chroma_noise_detail",
             SettingID::LUMA_SMEAR => "luma_smear",
-            SettingID::FILTER_TYPE => "filter_type",
-            PALparams::chroma_subcarrier => "chroma_subcarrier",
-            PALparams::color_space => "color_space",
-            PALparams::v_bandwidth => "v_bandwidth",
+            SettingID::FILTER_TYPE => "filter_type
             PALparams => "pal_params",
         }
     }
