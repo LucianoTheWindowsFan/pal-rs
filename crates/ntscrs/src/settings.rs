@@ -55,9 +55,9 @@ pub enum PALmode {
 
 #[derive(Clone, Debug, PartialEq)]
 pub(crate) struct PALparams {
-    static chroma_subcarrier: f32,
-    static color_space: f32,
-    static v_bandwidth: f32,
+    chroma_subcarrier: f32,
+    color_space: f32,
+    v_bandwidth: f32,
 }
 
 impl PALmode {
