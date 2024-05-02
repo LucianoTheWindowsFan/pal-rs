@@ -959,34 +959,34 @@ impl SettingsList {
 
         let v = vec![
             SettingDescriptor {
-                label: "Random seed",
+                label: "Random seed ",
                 description: None,
                 kind: SettingKind::IntRange { range: i32::MIN..=i32::MAX, default_value: default_settings.random_seed },
                 id: SettingID::RANDOM_SEED,
             },
             SettingDescriptor {
-                label: "Bandwidth scale",
+                label: "Bandwidth scale ",
                 description: Some("Horizontally scale the effect by this amount."),
                 kind: SettingKind::FloatRange { range: 0.125..=8.0, logarithmic: false, default_value: default_settings.bandwidth_scale },
                 id: SettingID::BANDWIDTH_SCALE,
             },
             SettingDescriptor {
-                label: "PAL mode",
+                label: "PAL mode ",
                 description: Some("Choose which PAL variant will be simulated."),
                 kind: SettingKind::Enumeration {
                     options: vec![
                         MenuItem {
-                            label: "PAL-B/G/D/K/I/H",
+                            label: "PAL-B/G/D/K/I/H ",
                             description: Some("The typical PAL variant. Used in most European countries, as well as some African countries, most Oceanian countries and some Asian countries."),
                             index: PALmode::EurPAL.to_u32().unwrap(),
                         },
                         MenuItem {
-                            label: "PAL-M",
+                            label: "PAL-M ",
                             description: Some("PAL variant used in Brazil. It has the same color subcarrier frequency as NTSC."),
                             index: PALmode::BraPAL.to_u32().unwrap(),
                         },
                         MenuItem {
-                            label: "PAL-N",
+                            label: "PAL-N ",
                             description: Some("Another South American PAL variant, this time used in Argentina, Paraguay and Uruguay. Besides the different color subcarrier frequency, it also uses the same color space as SECAM."),
                             index: PALmode::ArgPAL.to_u32().unwrap(),
                         },
@@ -996,37 +996,37 @@ impl SettingsList {
                 id: SettingID::PAL_MODE,
             },
             SettingDescriptor {
-                label: "Use field",
+                label: "Use field ",
                 description: Some("Choose which rows (\"fields\" in NTSC parlance) of the source image will be used."),
                 kind: SettingKind::Enumeration {
                     options: vec![
                         MenuItem {
-                            label: "Alternating",
+                            label: "Alternating ",
                             description: Some("Skip every other row, alternating between skipping even and odd rows."),
                             index: UseField::Alternating.to_u32().unwrap(),
                         },
                         MenuItem {
-                            label: "Upper only",
+                            label: "Upper only ",
                             description: Some("Skip every lower row, keeping the upper ones."),
                             index: UseField::Upper.to_u32().unwrap(),
                         },
                         MenuItem {
-                            label: "Lower only",
+                            label: "Lower only ",
                             description: Some("Skip every upper row, keeping the lower ones."),
                             index: UseField::Lower.to_u32().unwrap(),
                         },
                         MenuItem {
-                            label: "Interleaved (upper first)",
+                            label: "Interleaved (upper first) ",
                             description: Some("Treat the video as interlaced, with the upper field as the earlier frame."),
                             index: UseField::InterleavedUpper.to_u32().unwrap(),
                         },
                         MenuItem {
-                            label: "Interleaved (lower first)",
+                            label: "Interleaved (lower first) ",
                             description: Some("Treat the video as interlaced, with the lower field as the earlier frame."),
                             index: UseField::InterleavedLower.to_u32().unwrap(),
                         },
                         MenuItem {
-                            label: "Both",
+                            label: "Both ",
                             description: Some("Use all rows; don't skip any."),
                             index: UseField::Both.to_u32().unwrap(),
                         },
@@ -1036,17 +1036,17 @@ impl SettingsList {
                 id: SettingID::USE_FIELD,
             },
             SettingDescriptor {
-                label: "Lowpass filter type",
+                label: "Lowpass filter type ",
                 description: Some("The low-pass filter to use throughout the effect."),
                 kind: SettingKind::Enumeration {
                     options: vec![
                         MenuItem {
-                            label: "Constant K (blurry)",
+                            label: "Constant K (blurry) ",
                             description: Some("Simple constant-k filter. Produces longer, blurry results."),
                             index: FilterType::ConstantK.to_u32().unwrap(),
                         },
                         MenuItem {
-                            label: "Butterworth (sharper)",
+                            label: "Butterworth (sharper) ",
                             description: Some("Filter with a sharper falloff. Produces sharpened, less blurry results."),
                             index: FilterType::Butterworth.to_u32().unwrap(),
                         },
@@ -1056,22 +1056,22 @@ impl SettingsList {
                 id: SettingID::FILTER_TYPE,
             },
             SettingDescriptor {
-                label: "Input luma filter",
+                label: "Input luma filter ",
                 description: Some("Filter the input luminance to decrease rainbow artifacts."),
                 kind: SettingKind::Enumeration {
                     options: vec![
                         MenuItem {
-                            label: "Notch",
+                            label: "Notch ",
                             description: Some("Apply a notch filter to the input luminance signal. Sharp, but has ringing artifacts."),
                             index: LumaLowpass::Notch.to_u32().unwrap(),
                         },
                         MenuItem {
-                            label: "Box",
+                            label: "Box ",
                             description: Some("Apply a simple box filter to the input luminance signal."),
                             index: LumaLowpass::Box.to_u32().unwrap(),
                         },
                         MenuItem {
-                            label: "None",
+                            label: "None ",
                             description: Some("Do not filter the luminance signal. Adds rainbow artifacts."),
                             index: LumaLowpass::None.to_u32().unwrap(),
                         },
@@ -1081,22 +1081,22 @@ impl SettingsList {
                 id: SettingID::INPUT_LUMA_FILTER,
             },
             SettingDescriptor {
-                label: "Chroma low-pass in",
+                label: "Chroma low-pass in ",
                 description: Some("Apply a low-pass filter to the input chroma signal."),
                 kind: SettingKind::Enumeration {
                     options: vec![
                         MenuItem {
-                            label: "Full",
+                            label: "Full ",
                             description: Some("Full-intensity low-pass filter."),
                             index: ChromaLowpass::Full.to_u32().unwrap(),
                         },
                         MenuItem {
-                            label: "Light",
+                            label: "Light ",
                             description: Some("Less intense low-pass filter."),
                             index: ChromaLowpass::Light.to_u32().unwrap(),
                         },
                         MenuItem {
-                            label: "None",
+                            label: "None ",
                             description: Some("No low-pass filter."),
                             index: ChromaLowpass::None.to_u32().unwrap(),
                         },
@@ -1106,7 +1106,7 @@ impl SettingsList {
                 id: SettingID::CHROMA_LOWPASS_IN,
             },
             SettingDescriptor {
-                label: "Composite preemphasis",
+                label: "Composite preemphasis ",
                 description: Some("Boost high frequencies in the NTSC signal, sharpening the image and intensifying colors."),
                 kind: SettingKind::FloatRange {
                     range: 0.0..=2.0,
@@ -1116,7 +1116,7 @@ impl SettingsList {
                 id: SettingID::COMPOSITE_PREEMPHASIS,
             },
             SettingDescriptor {
-                label: "Composite noise",
+                label: "Composite noise ",
                 description: Some("Apply noise to the NTSC signal."),
                 kind: SettingKind::Percentage {
                     logarithmic: true,
@@ -1125,7 +1125,7 @@ impl SettingsList {
                 id: SettingID::COMPOSITE_NOISE_INTENSITY,
             },
             SettingDescriptor {
-                label: "Snow",
+                label: "Snow ",
                 description: Some("Frequency of random speckles in the image."),
                 kind: SettingKind::FloatRange {
                     range: 0.0..=100.0,
@@ -1135,7 +1135,7 @@ impl SettingsList {
                 id: SettingID::SNOW_INTENSITY,
             },
             SettingDescriptor {
-                label: "Snow anisotropy",
+                label: "Snow anisotropy ",
                 description: Some("Determines whether the speckles are placed truly randomly or concentrated in certain rows."),
                 kind: SettingKind::Percentage {
                     logarithmic: false,
@@ -1144,27 +1144,27 @@ impl SettingsList {
                 id: SettingID::SNOW_ANISOTROPY,
             },
             SettingDescriptor {
-                label: "Scanline phase shift",
+                label: "Scanline phase shift ",
                 description: Some("Phase shift of the chrominance signal each scanline. Usually 180 degrees."),
                 kind: SettingKind::Enumeration {
                     options: vec![
                         MenuItem {
-                            label: "0 degrees",
+                            label: "0 degrees ",
                             description: None,
                             index: PhaseShift::Degrees0.to_u32().unwrap(),
                         },
                         MenuItem {
-                            label: "90 degrees",
+                            label: "90 degrees ",
                             description: None,
                             index: PhaseShift::Degrees90.to_u32().unwrap(),
                         },
                         MenuItem {
-                            label: "180 degrees",
+                            label: "180 degrees ",
                             description: None,
                             index: PhaseShift::Degrees180.to_u32().unwrap(),
                         },
                         MenuItem {
-                            label: "270 degrees",
+                            label: "270 degrees ",
                             description: None,
                             index: PhaseShift::Degrees270.to_u32().unwrap(),
                         },
@@ -1174,7 +1174,7 @@ impl SettingsList {
                 id: SettingID::VIDEO_SCANLINE_PHASE_SHIFT,
             },
             SettingDescriptor {
-                label: "Scanline phase shift offset",
+                label: "Scanline phase shift offset ",
                 description: None,
                 kind: SettingKind::IntRange {
                     range: 0..=4,
@@ -1183,27 +1183,27 @@ impl SettingsList {
                 id: SettingID::VIDEO_SCANLINE_PHASE_SHIFT_OFFSET,
             },
             SettingDescriptor {
-                label: "Chroma demodulation filter",
+                label: "Chroma demodulation filter ",
                 description: Some("Filter used to modulate the chrominance (color) data out of the composite NTSC signal."),
                 kind: SettingKind::Enumeration {
                     options: vec![
                         MenuItem {
-                            label: "Box",
+                            label: "Box ",
                             description: Some("Simple horizontal box blur."),
                             index: ChromaDemodulationFilter::Box.to_u32().unwrap()
                         },
                         MenuItem {
-                            label: "Notch",
+                            label: "Notch ",
                             description: Some("Notch filter. Sharper than a box blur, but with ringing artifacts."),
                             index: ChromaDemodulationFilter::Notch.to_u32().unwrap()
                         },
                         MenuItem {
-                            label: "1-line comb",
+                            label: "1-line comb ",
                             description: Some("Average the current row with the previous one, phase-cancelling the chrominance signals. Only works if the scanline phase shift is 180 degrees."),
                             index: ChromaDemodulationFilter::OneLineComb.to_u32().unwrap()
                         },
                         MenuItem {
-                            label: "2-line comb",
+                            label: "2-line comb ",
                             description: Some("Average the current row with the previous and next ones, phase-cancelling the chrominance signals. Only works if the scanline phase shift is 180 degrees."),
                             index: ChromaDemodulationFilter::TwoLineComb.to_u32().unwrap()
                         }
@@ -1213,30 +1213,30 @@ impl SettingsList {
                 id: SettingID::CHROMA_DEMODULATION,
             },
             SettingDescriptor {
-                label: "Luma smear",
+                label: "Luma smear ",
                 description: None,
                 kind: SettingKind::FloatRange { range: 0.0..=1.0, logarithmic: false, default_value: default_settings.luma_smear },
                 id: SettingID::LUMA_SMEAR
             },
             SettingDescriptor {
-                label: "Head switching",
+                label: "Head switching ",
                 description: Some("Emulate VHS head-switching artifacts at the bottom of the image."),
                 kind: SettingKind::Group {
                     children: vec![
                         SettingDescriptor {
-                            label: "Height",
+                            label: "Height ",
                             description: Some("Total height of the head-switching artifact."),
                             kind: SettingKind::IntRange { range: 0..=24, default_value: default_settings.head_switching.settings.height as i32 },
                             id: SettingID::HEAD_SWITCHING_HEIGHT
                         },
                         SettingDescriptor {
-                            label: "Offset",
+                            label: "Offset ",
                             description: Some("How much of the head-switching artifact is off-screen."),
                             kind: SettingKind::IntRange { range: 0..=24, default_value: default_settings.head_switching.settings.offset as i32 },
                             id: SettingID::HEAD_SWITCHING_OFFSET
                         },
                         SettingDescriptor {
-                            label: "Horizontal shift",
+                            label: "Horizontal shift ",
                             description: Some("How much the head-switching artifact shifts rows horizontally."),
                             kind: SettingKind::FloatRange { range: -100.0..=100.0, logarithmic: false, default_value: default_settings.head_switching.settings.horiz_shift },
                             id: SettingID::HEAD_SWITCHING_HORIZONTAL_SHIFT
@@ -1247,36 +1247,36 @@ impl SettingsList {
                 id: SettingID::HEAD_SWITCHING,
             },
             SettingDescriptor {
-                label: "Tracking noise",
+                label: "Tracking noise ",
                 description: Some("Emulate noise from VHS tracking error."),
                 kind: SettingKind::Group {
                     children: vec![
                         SettingDescriptor {
-                            label: "Height",
+                            label: "Height ",
                             description: Some("Total height of the tracking artifacts."),
                             kind: SettingKind::IntRange { range: 0..=120, default_value: default_settings.tracking_noise.settings.height as i32 },
                             id: SettingID::TRACKING_NOISE_HEIGHT
                         },
                         SettingDescriptor {
-                            label: "Wave intensity",
+                            label: "Wave intensity ",
                             description: Some("How much the affected scanlines \"wave\" back and forth."),
                             kind: SettingKind::FloatRange { range: -50.0..=50.0, logarithmic: false, default_value: default_settings.tracking_noise.settings.wave_intensity },
                             id: SettingID::TRACKING_NOISE_WAVE_INTENSITY
                         },
                         SettingDescriptor {
-                            label: "Snow intensity",
+                            label: "Snow intensity ",
                             description: Some("Frequency of speckle-type noise in the artifacts."),
                             kind: SettingKind::FloatRange { range: 0.0..=1.0, logarithmic: true, default_value: default_settings.tracking_noise.settings.snow_intensity },
                             id: SettingID::TRACKING_NOISE_SNOW_INTENSITY
                         },
                         SettingDescriptor {
-                            label: "Snow anisotropy",
+                            label: "Snow anisotropy ",
                             description: Some("How much the speckles are clustered by scanline."),
                             kind: SettingKind::Percentage { logarithmic: false, default_value: default_settings.tracking_noise.settings.snow_intensity },
                             id: SettingID::TRACKING_NOISE_SNOW_ANISOTROPY
                         },
                         SettingDescriptor {
-                            label: "Noise intensity",
+                            label: "Noise intensity ",
                             description: Some("Intensity of non-speckle noise."),
                             kind: SettingKind::Percentage { logarithmic: true, default_value: default_settings.tracking_noise.settings.noise_intensity },
                             id: SettingID::TRACKING_NOISE_NOISE_INTENSITY
@@ -1287,24 +1287,24 @@ impl SettingsList {
                 id: SettingID::TRACKING_NOISE,
             },
             SettingDescriptor {
-                label: "Ringing",
+                label: "Ringing ",
                 description: Some("Additional ringing artifacts, simulated with a notch filter."),
                 kind: SettingKind::Group {
                     children: vec![
                         SettingDescriptor {
-                            label: "Frequency",
+                            label: "Frequency ",
                             description: Some("Frequency/period of the ringing, in \"rings per pixel\"."),
                             kind: SettingKind::Percentage { logarithmic: false, default_value: default_settings.ringing.settings.frequency },
                             id: SettingID::RINGING_FREQUENCY
                         },
                         SettingDescriptor {
-                            label: "Power",
+                            label: "Power ",
                             description: Some("The power of the notch filter / how far out the ringing extends."),
                             kind: SettingKind::FloatRange { range: 1.0..=10.0, logarithmic: false, default_value: default_settings.ringing.settings.power },
                             id: SettingID::RINGING_POWER
                         },
                         SettingDescriptor {
-                            label: "Scale",
+                            label: "Scale ",
                             description: Some("Intensity of the ringing."),
                             kind: SettingKind::FloatRange { range: 0.0..=10.0, logarithmic: false, default_value: default_settings.ringing.settings.intensity },
                             id: SettingID::RINGING_SCALE
@@ -1315,24 +1315,24 @@ impl SettingsList {
                 id: SettingID::RINGING,
             },
             SettingDescriptor {
-                label: "Chroma noise",
+                label: "Chroma noise ",
                 description: Some("Noise applied to the chrominance signal."),
                 kind: SettingKind::Group {
                     children: vec![
                         SettingDescriptor {
-                            label: "Intensity",
+                            label: "Intensity ",
                             description: Some("Intensity of the noise."),
                             kind: SettingKind::Percentage { logarithmic: true, default_value: default_settings.chroma_noise.settings.intensity },
                             id: SettingID::CHROMA_NOISE_INTENSITY
                         },
                         SettingDescriptor {
-                            label: "Frequency",
+                            label: "Frequency ",
                             description: Some("Base wavelength, in pixels, of the noise."),
                             kind: SettingKind::FloatRange { range: 0.0..=0.5, logarithmic: false, default_value: default_settings.chroma_noise.settings.frequency },
                             id: SettingID::CHROMA_NOISE_FREQUENCY
                         },
                         SettingDescriptor {
-                            label: "Detail",
+                            label: "Detail ",
                             description: Some("Octaves of noise."),
                             kind: SettingKind::IntRange { range: 1..=5, default_value: default_settings.chroma_noise.settings.detail as i32 },
                             id: SettingID::CHROMA_NOISE_DETAIL
@@ -1343,7 +1343,7 @@ impl SettingsList {
                 id: SettingID::CHROMA_NOISE,
             },
             SettingDescriptor {
-                label: "Chroma phase error",
+                label: "Chroma phase error ",
                 description: Some("Phase error for the chrominance signal."),
                 kind: SettingKind::Percentage {
                     logarithmic: false,
@@ -1352,7 +1352,7 @@ impl SettingsList {
                 id: SettingID::CHROMA_PHASE_ERROR,
             },
             SettingDescriptor {
-                label: "Chroma phase noise",
+                label: "Chroma phase noise ",
                 description: Some("Noise applied per-scanline to the phase of the chrominance signal."),
                 kind: SettingKind::Percentage {
                     logarithmic: true,
@@ -1361,7 +1361,7 @@ impl SettingsList {
                 id: SettingID::CHROMA_PHASE_NOISE_INTENSITY,
             },
             SettingDescriptor {
-                label: "Chroma delay (horizontal)",
+                label: "Chroma delay (horizontal) ",
                 description: Some("Horizontal offset of the chrominance signal."),
                 kind: SettingKind::FloatRange {
                     range: -40.0..=40.0,
@@ -1371,7 +1371,7 @@ impl SettingsList {
                 id: SettingID::CHROMA_DELAY_HORIZONTAL,
             },
             SettingDescriptor {
-                label: "Chroma delay (vertical)",
+                label: "Chroma delay (vertical) ",
                 description: Some("Vertical offset of the chrominance signal. Usually increases with VHS generation loss."),
                 kind: SettingKind::IntRange {
                     range: -20..=20,
@@ -1380,32 +1380,32 @@ impl SettingsList {
                 id: SettingID::CHROMA_DELAY_VERTICAL,
             },
             SettingDescriptor {
-                label: "VHS emulation",
+                label: "VHS emulation ",
                 description: None,
                 kind: SettingKind::Group {
                     children: vec![
                         SettingDescriptor {
-                            label: "Tape speed",
+                            label: "Tape speed ",
                             description: Some("Emulate cutoff of high-frequency data at various VHS recording speeds."),
                             kind: SettingKind::Enumeration {
                                 options: vec![
                                     MenuItem {
-                                        label: "SP (Standard Play)",
+                                        label: "SP (Standard Play) ",
                                         description: None,
                                         index: VHSTapeSpeed::SP.to_u32().unwrap(),
                                     },
                                     MenuItem {
-                                        label: "LP (Long Play)",
+                                        label: "LP (Long Play) ",
                                         description: None,
                                         index: VHSTapeSpeed::LP.to_u32().unwrap(),
                                     },
                                     MenuItem {
-                                        label: "EP (Extended Play)",
+                                        label: "EP (Extended Play) ",
                                         description: None,
                                         index: VHSTapeSpeed::EP.to_u32().unwrap(),
                                     },
                                     MenuItem {
-                                        label: "None",
+                                        label: "None ",
                                         description: None,
                                         index: 0,
                                     },
@@ -1415,23 +1415,23 @@ impl SettingsList {
                             id: SettingID::VHS_TAPE_SPEED
                         },
                         SettingDescriptor {
-                            label: "Chroma loss",
+                            label: "Chroma loss ",
                             description: Some("Chance that the chrominance signal is completely lost in each scanline."),
                             kind: SettingKind::Percentage { logarithmic: true, default_value: default_settings.vhs_settings.settings.chroma_loss },
                             id: SettingID::VHS_CHROMA_LOSS
                         },
                         SettingDescriptor {
-                            label: "Sharpen",
+                            label: "Sharpen ",
                             description: Some("Sharpening of the image, as done by some VHS decks."),
                             kind: SettingKind::Group { children: vec![
                                 SettingDescriptor {
-                                    label: "Intensity",
+                                    label: "Intensity ",
                                     description: Some("Amount of sharpening to apply."),
                                     kind: SettingKind::FloatRange { range: 0.0..=5.0, logarithmic: false, default_value: default_settings.vhs_settings.settings.sharpen.settings.intensity },
                                     id: SettingID::VHS_SHARPEN_INTENSITY
                                 },
                                 SettingDescriptor {
-                                    label: "Frequency",
+                                    label: "Frequency ",
                                     description: Some("Frequency / radius of the sharpening, relative to the tape speed's cutoff frequency."),
                                     kind: SettingKind::FloatRange { range: 0.5..=4.0, logarithmic: false, default_value: default_settings.vhs_settings.settings.sharpen.settings.frequency },
                                     id: SettingID::VHS_SHARPEN_FREQUENCY
@@ -1440,30 +1440,30 @@ impl SettingsList {
                             id: SettingID::VHS_SHARPEN_ENABLED
                         },
                         SettingDescriptor {
-                            label: "Edge wave",
+                            label: "Edge wave ",
                             description: Some("Horizontal waving of the image."),
                             kind: SettingKind::Group {
                                 children: vec![
                                     SettingDescriptor {
-                                        label: "Intensity",
+                                        label: "Intensity ",
                                         description: Some("Horizontal waving of the image, in pixels."),
                                         kind: SettingKind::FloatRange { range: 0.0..=20.0, logarithmic: false, default_value: default_settings.vhs_settings.settings.edge_wave.settings.intensity },
                                         id: SettingID::VHS_EDGE_WAVE_INTENSITY
                                     },
                                     SettingDescriptor {
-                                        label: "Speed",
+                                        label: "Speed ",
                                         description: Some("Speed at which the horizontal waving occurs."),
                                         kind: SettingKind::FloatRange { range: 0.0..=10.0, logarithmic: false, default_value: default_settings.vhs_settings.settings.edge_wave.settings.speed },
                                         id: SettingID::VHS_EDGE_WAVE_SPEED
                                     },
                                     SettingDescriptor {
-                                        label: "Frequency",
+                                        label: "Frequency ",
                                         description: Some("Base wavelength for the horizontal waving."),
                                         kind: SettingKind::FloatRange { range: 0.0..=0.5, logarithmic: false, default_value: default_settings.vhs_settings.settings.edge_wave.settings.frequency },
                                         id: SettingID::VHS_EDGE_WAVE_FREQUENCY
                                     },
                                     SettingDescriptor {
-                                        label: "Detail",
+                                        label: "Detail ",
                                         description: Some("Octaves of noise for the waves."),
                                         kind: SettingKind::IntRange { range: 1..=5, default_value: default_settings.vhs_settings.settings.edge_wave.settings.detail },
                                         id: SettingID::VHS_EDGE_WAVE_DETAIL
@@ -1479,28 +1479,28 @@ impl SettingsList {
                 id: SettingID::VHS_SETTINGS,
             },
             SettingDescriptor {
-                label: "Vertically blend chroma",
+                label: "Vertically blend chroma ",
                 description: Some("Vertically blend each scanline's chrominance with the scanline above it."),
                 kind: SettingKind::Boolean { default_value: default_settings.chroma_vert_blend },
                 id: SettingID::CHROMA_VERT_BLEND
             },
             SettingDescriptor {
-                label: "Chroma low-pass out",
+                label: "Chroma low-pass out ",
                 description: Some("Apply a low-pass filter to the output chroma signal."),
                 kind: SettingKind::Enumeration {
                     options: vec![
                         MenuItem {
-                            label: "Full",
+                            label: "Full ",
                             description: Some("Full-intensity low-pass filter."),
                             index: ChromaLowpass::Full.to_u32().unwrap(),
                         },
                         MenuItem {
-                            label: "Light",
+                            label: "Light ",
                             description: Some("Less intense low-pass filter."),
                             index: ChromaLowpass::Light.to_u32().unwrap(),
                         },
                         MenuItem {
-                            label: "None",
+                            label: "None ",
                             description: Some("No low-pass filter."),
                             index: ChromaLowpass::None.to_u32().unwrap(),
                         },
