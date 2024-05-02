@@ -15,6 +15,7 @@
 * On chroma phase error, remove the tinting issue and replace it with the saturation issue.
 * Better emulation of PAL artifacts.
 * Simulate Hanover bars as an option.
+* Fix the program. As of May 2, 2024, compiling the latest source code and opening the compiled program results in a crash.
 
 ## Download
 
