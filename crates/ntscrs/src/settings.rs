@@ -339,7 +339,7 @@ impl<T: Default> Default for SettingsBlock<T> {
     }
 }
 
-#[derive(FullSettings, Clone, Debug, PartialEq)]
+#[derive(FullSettings, Clone, Copy, Debug, PartialEq)]
 #[non_exhaustive]
 pub struct NtscEffect {
     pub random_seed: i32,
@@ -520,8 +520,6 @@ pub enum SettingID {
 
     VHS_SHARPEN_ENABLED,
     VHS_SHARPEN_FREQUENCY,
-
-    PAL_PARAMS,
 
 }
 
