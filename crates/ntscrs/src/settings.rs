@@ -169,8 +169,8 @@ pub(crate) struct PALparams {
     chroma_subcarrier: f32,
     v_bandwidth: f32,
 }
-    pub const CHROMA_SUBCARRIER: f32 = chroma_subcarrier;
-    pub const V_BANDWIDTH: f32 = v_bandwidth;
+    pub const CHROMA_SUBCARRIER: f32 = PALparams::chroma_subcarrier;
+    pub const V_BANDWIDTH: f32 = PALparams::v_bandwidth;
 
 impl PALmode {
     pub(crate) fn filter_params(&self) -> PALparams {
