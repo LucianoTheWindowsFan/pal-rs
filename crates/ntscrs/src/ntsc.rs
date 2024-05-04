@@ -25,7 +25,7 @@ struct CommonInfo {
     bandwidth_scale: f32,
 }
 
-Self{
+struct Self{
     let PALparams{
         CHROMA_SUBCARRIER, V_BANDWIDTH
 } = PALparams::pal_params();}
