@@ -24,15 +24,6 @@ struct CommonInfo {
     bandwidth_scale: f32,
 }
 
-    
-// 315/88 Mhz rate * 4
-// TODO: why do we multiply by 4? composite-video-simulator does this for every filter and ntscqt defines NTSC_RATE the
-// same way as we do here.
-
-pub fn subcarrier(setting: &mut PALparams) {          
-const NTSC_RATE: f32 = (setting.CHROMA_SUBCARRIER / 88.0) * 4.0;
-}
-
 /// Create a simple constant-k lowpass filter with the given frequency cutoff, which can then be used to filter a signal.
 pub fn make_lowpass(cutoff: f32, rate: f32) -> TransferFunction {
     let time_interval = 1.0 / rate;
@@ -221,8 +212,8 @@ fn luma_filter(frame: &mut YiqView, filter_mode: LumaLowpass) {
 /// (Well, almost--Wikipedia (https://en.wikipedia.org/wiki/YIQ) puts the Q bandwidth at 0.4 MHz, not 0.6. Although
 /// that statement seems unsourced and I can't find any info on it...
 fn composite_chroma_lowpass(frame: &mut YiqView, info: &CommonInfo, filter_type: FilterType, setting: &mut PALparams) {
-    let i_filter = make_lowpass_for_type(1300000.0, NTSC_RATE * info.bandwidth_scale, filter_type);
-    let q_filter = make_lowpass_for_type(setting.V_BANDWIDTH, NTSC_RATE * info.bandwidth_scale, filter_type);
+    let i_filter = make_lowpass_for_type(1300000.0, ((CHROMA_SUBCARRIER / 88.0) * 4.0) * info.bandwidth_scale, filter_type);
+    let q_filter = make_lowpass_for_type(setting.V_BANDWIDTH, ((CHROMA_SUBCARRIER / 88.0)* info.bandwidth_scale, filter_type);
 
     let width = frame.dimensions.0;
 
@@ -232,7 +223,7 @@ fn composite_chroma_lowpass(frame: &mut YiqView, info: &CommonInfo, filter_type:
 
 /// Apply a less intense lowpass filter to the input chroma.
 fn composite_chroma_lowpass_lite(frame: &mut YiqView, info: &CommonInfo, filter_type: FilterType, setting: &mut PALparams) {
-    let filter = make_lowpass_for_type(2600000.0, NTSC_RATE * info.bandwidth_scale, filter_type);
+    let filter = make_lowpass_for_type(2600000.0, ((CHROMA_SUBCARRIER / 88.0) * info.bandwidth_scale, filter_type);
 
     let width = frame.dimensions.0;
 
@@ -1025,7 +1016,7 @@ impl NtscEffect {
         if self.composite_preemphasis > 0.0 {
             let preemphasis_filter = make_lowpass(
                 (CHROMA_SUBCARRIER / 88.0 / 2.0) * self.bandwidth_scale,
-                NTSC_RATE * self.bandwidth_scale,
+                (CHROMA_SUBCARRIER / 88.0) * self.bandwidth_scale,
             );
             filter_plane(
                 yiq.y,
@@ -1140,12 +1131,12 @@ impl NtscEffect {
                 // TODO: use a better filter! this effect's output looks way more smear-y than real VHS
                 let luma_filter = make_lowpass_for_type(
                     luma_cut,
-                    NTSC_RATE * self.bandwidth_scale,
+                    ((CHROMA_SUBCARRIER / 88.0) * self.bandwidth_scale,
                     self.filter_type,
                 );
                 let chroma_filter = make_lowpass_for_type(
                     chroma_cut,
-                    NTSC_RATE * self.bandwidth_scale,
+                    ((CHROMA_SUBCARRIER / 88.0) * self.bandwidth_scale,
                     self.filter_type,
                 );
                 filter_plane(yiq.y, width, &luma_filter, InitialCondition::Zero, 1.0, 0);
@@ -1165,7 +1156,7 @@ impl NtscEffect {
                     1.0,
                     chroma_delay,
                 );
-                let luma_filter_single = make_lowpass(luma_cut, NTSC_RATE * self.bandwidth_scale);
+                let luma_filter_single = make_lowpass(luma_cut, ((CHROMA_SUBCARRIER / 88.0) * self.bandwidth_scale);
                 filter_plane(
                     yiq.y,
                     width,
@@ -1189,12 +1180,12 @@ impl NtscEffect {
                     };
                     let luma_sharpen_filter = make_lowpass_for_type(
                         luma_cut * frequency_extra_multiplier * sharpen.frequency,
-                        NTSC_RATE * self.bandwidth_scale,
+                        ((CHROMA_SUBCARRIER / 88.0) * self.bandwidth_scale,
                         self.filter_type,
                     );
                     // The composite-video-simulator code sharpens the chroma plane, but ntscqt and this effect do not.
                     // I'm not sure if I'm implementing it wrong, but chroma sharpening looks awful.
-                    // let chroma_sharpen_filter = make_lowpass_triple(chroma_cut * 4.0, 0.0, NTSC_RATE);
+                    // let chroma_sharpen_filter = make_lowpass_triple(chroma_cut * 4.0, 0.0, ((CHROMA_SUBCARRIER / 88.0));
                     filter_plane(
                         yiq.y,
                         width,
