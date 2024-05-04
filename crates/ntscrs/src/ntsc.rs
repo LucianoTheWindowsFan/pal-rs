@@ -16,7 +16,7 @@ use crate::{
 };
 
 pub use crate::settings::*;
-pub use r#struct::settings::PAlparams;
+use settings::PAlparams;
 
 /// Settings common to each invocation of the effect. Passed to each individual effect function.
 struct CommonInfo {
