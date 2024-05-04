@@ -20,7 +20,7 @@ pub use crate::settings::*;
 pub struct Solution {}
 
 impl Solution {
-    pub fn pal_params(root: PALparams) -> PALparams { .. },
+    pub fn pal_params(root: PALparams) -> PALparams { .. }
 }
 
 fn main() {
