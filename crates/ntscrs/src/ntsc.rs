@@ -13,7 +13,7 @@ use crate::{
     random::{Geometric, Seeder},
     shift::{shift_row, shift_row_to, BoundaryHandling},
     yiq_fielding::{YiqField, YiqOwned, YiqView},
-    settings::{CHROMA_SUBCARRIER, V_BANDWITDTH},
+    settings::PALparams::{CHROMA_SUBCARRIER, V_BANDWITDTH},
 };
 
 pub use crate::settings::*;
