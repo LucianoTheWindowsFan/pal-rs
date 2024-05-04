@@ -169,8 +169,8 @@ pub(crate) struct PALparams {
     chroma_subcarrier: f32,
     v_bandwidth: f32,
 }
-    pub const CHROMA_SUBCARRIER: f32 = 0.0;
-    pub const V_BANDWIDTH: f32 = 2.0;
+    pub const CHROMA_SUBCARRIER: f32 = chroma_subcarrier;
+    pub const V_BANDWIDTH: f32 = v_bandwidth;
 
 impl PALmode {
     pub(crate) fn filter_params(&self) -> PALparams {
@@ -397,7 +397,6 @@ impl Default for NtscEffect {
             chroma_vert_blend: true,
             bandwidth_scale: 1.0,
             pal_mode: PALmode::EurPAL,
-            pal_params: PALparams { chroma_subcarrier: 390158450.0, v_bandwidth: 1300000.0},
         }
     }
 }
