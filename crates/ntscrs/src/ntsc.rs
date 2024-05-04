@@ -16,7 +16,6 @@ use crate::{
 };
 
 pub use crate::settings::*;
-pub fn (frame: &mut YiqView, filter_mode: LumaLowpass)
 
 /// Settings common to each invocation of the effect. Passed to each individual effect function.
 struct CommonInfo {
