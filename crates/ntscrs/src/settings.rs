@@ -53,33 +53,6 @@ pub enum PALmode {
     ArgPAL,
 }
 
-#[derive(Clone, Copy, Debug, PartialEq)]
-pub(crate) struct PALparams {
-    chroma_subcarrier: f32,
-    v_bandwidth: f32,
-}
-    pub const chroma_subcarrier: f32 = 0.0;
-    pub const  v_bandwidth: f32 = 2.0;
-
-impl PALmode {
-    pub(crate) fn filter_params(&self) -> PALparams {
-        match self {
-            PALmode::EurPAL => PALparams {
-                chroma_subcarrier: 390158450.0,
-                v_bandwidth: 1300000.0,
-            },
-            PALmode::BraPAL => PALparams {
-                chroma_subcarrier: 314653778.0,
-                v_bandwidth: 600000.0,
-            },
-            PALmode::ArgPAL => PALparams {
-                chroma_subcarrier: 315220950.0,
-                v_bandwidth: 600000.0,
-            },
-        }
-    }
-}
-
 #[derive(Debug, Clone, Copy, PartialEq, Eq, FromPrimitive, ToPrimitive)]
 pub enum FilterType {
     ConstantK = 0,
@@ -187,6 +160,33 @@ impl Default for VHSSettings {
             chroma_loss: 0.0,
             sharpen: Some(VHSSharpenSettings::default()),
             edge_wave: Some(VHSEdgeWaveSettings::default()),
+        }
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub(crate) struct PALparams {
+    chroma_subcarrier: f32,
+    v_bandwidth: f32,
+}
+    pub const CHROMA_SUBCARRIER: f32 = 0.0;
+    pub const V_BANDWIDTH: f32 = 2.0;
+
+impl PALmode {
+    pub(crate) fn filter_params(&self) -> PALparams {
+        match self {
+            PALmode::EurPAL => PALparams {
+                chroma_subcarrier: 390158450.0,
+                v_bandwidth: 1300000.0,
+            },
+            PALmode::BraPAL => PALparams {
+                chroma_subcarrier: 314653778.0,
+                v_bandwidth: 600000.0,
+            },
+            PALmode::ArgPAL => PALparams {
+                chroma_subcarrier: 315220950.0,
+                v_bandwidth: 600000.0,
+            },
         }
     }
 }
@@ -367,7 +367,6 @@ pub struct NtscEffect {
     pub chroma_lowpass_out: ChromaLowpass,
     pub bandwidth_scale: f32,
     pub pal_mode: PALmode,
-    pub pal_params: PALparams,
 }
 
 impl Default for NtscEffect {
@@ -866,7 +865,6 @@ impl SettingID {
             SettingID::CHROMA_NOISE_DETAIL => "chroma_noise_detail",
             SettingID::LUMA_SMEAR => "luma_smear",
             SettingID::FILTER_TYPE => "filter_type",
-            PALparams => "pal_params",
         }
     }
 }
