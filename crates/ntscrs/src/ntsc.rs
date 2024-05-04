@@ -13,10 +13,10 @@ use crate::{
     random::{Geometric, Seeder},
     shift::{shift_row, shift_row_to, BoundaryHandling},
     yiq_fielding::{YiqField, YiqOwned, YiqView},
-    settings::PAlparams,
 };
 
 pub use crate::settings::*;
+pub use settings::PAlparams;
 
 /// Settings common to each invocation of the effect. Passed to each individual effect function.
 struct CommonInfo {
