@@ -23,9 +23,9 @@ struct CommonInfo {
     seed: u64,
     frame_num: usize,
     bandwidth_scale: f32,
-};
+}
 
-if let Some(PALparams {
+const Some(PALparams {
             CHROMA_SUBCARRIER,
             V_BANDWIDTH,
         }) = self.pal_params
