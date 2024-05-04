@@ -163,6 +163,8 @@ impl Default for VHSSettings {
         }
     }
 }
+    pub const CHROMA_SUBCARRIER: f32 = 0.0;
+    pub const V_BANDWIDTH: f32 = 1.0;
 
 
 #[derive(Clone, Copy, Debug, PartialEq)]
@@ -184,8 +186,6 @@ impl PALmode {
         }
     }
 }
-    pub const CHROMA_SUBCARRIER: f32 = 0.0;
-    pub const V_BANDWIDTH: f32 = 1.0;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, FromPrimitive, ToPrimitive)]
 pub enum ChromaLowpass {
