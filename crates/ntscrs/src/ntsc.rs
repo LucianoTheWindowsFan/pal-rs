@@ -15,7 +15,7 @@ use crate::{
     yiq_fielding::{YiqField, YiqOwned, YiqView},
 };
 
-use settings::PALparams;
+pub use crate::settings::*;
 
 pub struct Solution {}
 
@@ -28,7 +28,6 @@ fn main() {
     let result = Solution::pal_params(params);
 }
     
-pub use crate::settings::*;
 
 /// Settings common to each invocation of the effect. Passed to each individual effect function.
 struct CommonInfo {
