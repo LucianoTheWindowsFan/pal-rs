@@ -25,7 +25,10 @@ struct CommonInfo {
     bandwidth_scale: f32,
 }
 
-Self{let PALparams{CHROMA_SUBCARRIER, V_BANDWIDTH} = PALparams::pal_params();)
+Self{
+    let PALparams{
+        CHROMA_SUBCARRIER, V_BANDWIDTH
+} = PALparams::pal_params();}
 
     
 // 315/88 Mhz rate * 4
