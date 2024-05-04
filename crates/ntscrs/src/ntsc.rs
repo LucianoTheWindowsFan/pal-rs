@@ -23,7 +23,7 @@ struct CommonInfo {
     frame_num: usize,
     bandwidth_scale: f32,
 }
-const PALparams {
+const struct PALparams {
                     chroma_subcarrier,
                     v_bandwidth,
                 } 
