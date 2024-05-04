@@ -16,11 +16,6 @@ use crate::{
 };
 
 pub use crate::settings::*;
-
-fn main() {
-    let CHROMA_SUBCARRIER = settings::PALparams::CHROMA_SUBCARRIER;
-    let V_BANDWIDTH = settings::PALparams::V_BANDWIDTH;
-}
     
 
 /// Settings common to each invocation of the effect. Passed to each individual effect function.
