@@ -18,8 +18,8 @@ use crate::{
 pub use crate::settings::*;
 
 fn main() {
-    let CHROMA_SUBCARRIER = PALparams::CHROMA_SUBCARRIER;
-    let V_BANDWIDTH = PALparams::V_BANDWIDTH;
+    let CHROMA_SUBCARRIER = settings::PALparams::CHROMA_SUBCARRIER;
+    let V_BANDWIDTH = settings::PALparams::V_BANDWIDTH;
 }
     
 
