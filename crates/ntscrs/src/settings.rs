@@ -166,8 +166,8 @@ impl Default for VHSSettings {
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub(crate) struct PALparams {
-    pub fn CHROMA_SUBCARRIER: f32,
-    pub fn V_BANDWIDTH: f32,
+    pub CHROMA_SUBCARRIER: f32,
+    pub V_BANDWIDTH: f32,
 }
 
 impl PALmode {
