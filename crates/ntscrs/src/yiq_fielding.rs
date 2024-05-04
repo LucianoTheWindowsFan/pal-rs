@@ -4,8 +4,6 @@ use glam::{Mat3A, Vec3A};
 use image::RgbImage;
 use rayon::prelude::*;
 
-pub use crate::settings::*;
-
 #[inline(always)]
 pub fn rgb_to_yiq([r, g, b]: [f32; 3]) -> [f32; 3] {
     const YIQ_MATRIX: Mat3A = Mat3A::from_cols(
