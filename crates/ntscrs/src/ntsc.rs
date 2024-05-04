@@ -1002,8 +1002,6 @@ impl NtscEffect {
         let mut scratch_buffer = ScratchBuffer::new(yiq.y.len());
 
         luma_filter(yiq, self.input_luma_filter);
-
-        use crate::settings;
         
         match self.chroma_lowpass_in {
             ChromaLowpass::Full => {
@@ -1024,7 +1022,7 @@ impl NtscEffect {
 
         if self.composite_preemphasis > 0.0 {
             let preemphasis_filter = make_lowpass(
-                (PALparams::CHROMA_SUBCARRIER / 88.0 / 2.0) * self.bandwidth_scale,
+                (CHROMA_SUBCARRIER / 88.0 / 2.0) * self.bandwidth_scale,
                 NTSC_RATE * self.bandwidth_scale,
             );
             filter_plane(
