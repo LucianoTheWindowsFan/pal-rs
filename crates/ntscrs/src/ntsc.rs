@@ -1003,8 +1003,9 @@ impl NtscEffect {
 
         luma_filter(yiq, self.input_luma_filter);
 
+        use crate::settings;
+        
         match self.chroma_lowpass_in {
-            use settings;
             ChromaLowpass::Full => {
                 composite_chroma_lowpass(yiq, &info, self.filter_type, &mut settings::PALparams);
             }
@@ -1212,8 +1213,8 @@ impl NtscEffect {
             chroma_vert_blend(yiq);
         }
 
+        use crate::settings;
         match self.chroma_lowpass_out {
-            use settings;
             ChromaLowpass::Full => {
                 composite_chroma_lowpass(yiq, &info, self.filter_type,  &mut settings::PALparams);
             }
