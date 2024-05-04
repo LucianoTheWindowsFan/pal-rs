@@ -1005,10 +1005,10 @@ impl NtscEffect {
 
         match self.chroma_lowpass_in {
             ChromaLowpass::Full => {
-                composite_chroma_lowpass(yiq, &info, self.filter_type);
+                composite_chroma_lowpass(yiq, &info, self.filter_type, CHROMA_SUBCARRIER);
             }
             ChromaLowpass::Light => {
-                composite_chroma_lowpass_lite(yiq, &info, self.filter_type);
+                composite_chroma_lowpass_lite(yiq, &info, self.filter_type, CHROMA_SUBCARRIER);
             }
             ChromaLowpass::None => {}
         };
