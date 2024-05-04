@@ -30,7 +30,7 @@ struct CommonInfo {
 // same way as we do here.
 
 fn subcarrier(setting: &mut PALparams) {          
-const NTSC_RATE: f32 = (setting.CHROMA_SUBCARRIER / 88.0) * 4.0;
+pub NTSC_RATE: f32 = (setting.CHROMA_SUBCARRIER / 88.0) * 4.0;
 }
 
 /// Create a simple constant-k lowpass filter with the given frequency cutoff, which can then be used to filter a signal.
