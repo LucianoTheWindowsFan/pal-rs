@@ -17,15 +17,9 @@ use crate::{
 
 pub use crate::settings::*;
 
-pub struct Solution {}
-
-impl Solution {
-    pub fn pal_params(root: PALparams) -> PALparams { .. }
-}
-
 fn main() {
-    let params = PALparams::new(1);
-    let result = Solution::pal_params(params);
+    let CHROMA_SUBCARRIER = PALparams::CHROMA_SUBCARRIER;
+    let V_BANDWIDTH = PALparams::V_BANDWIDTH;
 }
     
 
