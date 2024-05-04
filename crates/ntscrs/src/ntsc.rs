@@ -23,7 +23,7 @@ struct CommonInfo {
     frame_num: usize,
     bandwidth_scale: f32,
 }
- let PALparams {
+static PALparams {
                     chroma_subcarrier,
                     v_bandwidth,
                 } 
