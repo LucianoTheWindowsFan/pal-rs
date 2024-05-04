@@ -1007,10 +1007,10 @@ impl NtscEffect {
         
         match self.chroma_lowpass_in {
             ChromaLowpass::Full => {
-                composite_chroma_lowpass(yiq, &info, self.filter_type, &mut settings::PALparams);
+                composite_chroma_lowpass(yiq, &info, self.filter_type, &mut settings::PALparams { CHROMA_SUBCARRIER: 0.0, V_BANDWIDTH: 0.1 });
             }
             ChromaLowpass::Light => {
-                composite_chroma_lowpass_lite(yiq, &info, self.filter_type, &mut settings::PALparams);
+                composite_chroma_lowpass_lite(yiq, &info, self.filter_type, &mut settings::PALparams { CHROMA_SUBCARRIER: 0.0, V_BANDWIDTH: 0.1 });
             }
             ChromaLowpass::None => {}
         };
@@ -1215,10 +1215,10 @@ impl NtscEffect {
 
         match self.chroma_lowpass_out {
             ChromaLowpass::Full => {
-                composite_chroma_lowpass(yiq, &info, self.filter_type,  &mut settings::PALparams);
+                composite_chroma_lowpass(yiq, &info, self.filter_type,  &mut settings::PALparams { CHROMA_SUBCARRIER: 0.0, V_BANDWIDTH: 0.1 });
             }
             ChromaLowpass::Light => {
-                composite_chroma_lowpass_lite(yiq, &info, self.filter_type,  &mut settings::PALparams);
+                composite_chroma_lowpass_lite(yiq, &info, self.filter_type,  &mut settings::PALparams { CHROMA_SUBCARRIER: 0.0, V_BANDWIDTH: 0.1 });
             }
             ChromaLowpass::None => {}
         };
