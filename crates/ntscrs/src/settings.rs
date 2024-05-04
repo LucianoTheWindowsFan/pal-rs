@@ -56,11 +56,9 @@ pub enum PALmode {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub(crate) struct PALparams {
     chroma_subcarrier: f32,
-    color_space: f32,
     v_bandwidth: f32,
 }
     pub const chroma_subcarrier: f32 = 0.0;
-    pub const color_space: f32 = 1.0;
     pub const  v_bandwidth: f32 = 2.0;
 
 impl PALmode {
@@ -68,17 +66,14 @@ impl PALmode {
         match self {
             PALmode::EurPAL => PALparams {
                 chroma_subcarrier: 390158450.0,
-                color_space: 0.0,
                 v_bandwidth: 1300000.0,
             },
             PALmode::BraPAL => PALparams {
                 chroma_subcarrier: 314653778.0,
-                color_space: 0.0,
                 v_bandwidth: 600000.0,
             },
             PALmode::ArgPAL => PALparams {
                 chroma_subcarrier: 315220950.0,
-                color_space: 1.0,
                 v_bandwidth: 600000.0,
             },
         }
@@ -403,7 +398,7 @@ impl Default for NtscEffect {
             chroma_vert_blend: true,
             bandwidth_scale: 1.0,
             pal_mode: PALmode::EurPAL,
-            pal_params: PALparams { chroma_subcarrier: 390158450.0, color_space: 0.0, v_bandwidth: 1300000.0},
+            pal_params: PALparams { chroma_subcarrier: 390158450.0, v_bandwidth: 1300000.0},
         }
     }
 }
