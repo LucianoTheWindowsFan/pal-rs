@@ -25,12 +25,12 @@ struct CommonInfo {
     bandwidth_scale: f32,
 }
 
-if let Some(PALparams {
+let Some(PALparams {
             CHROMA_SUBCARRIER,
             V_BANDWIDTH,
         }) = self.pal_params
         {
-            tracking_noise(
+            pal_params(
                 CHROMA_SUBCARRIER,
                 V_BANDWIDTH,
             );
