@@ -212,8 +212,8 @@ fn luma_filter(frame: &mut YiqView, filter_mode: LumaLowpass) {
 /// (Well, almost--Wikipedia (https://en.wikipedia.org/wiki/YIQ) puts the Q bandwidth at 0.4 MHz, not 0.6. Although
 /// that statement seems unsourced and I can't find any info on it...
 fn composite_chroma_lowpass(frame: &mut YiqView, info: &CommonInfo, filter_type: FilterType, setting: &mut PALparams) {
-    let i_filter = make_lowpass_for_type(1300000.0, ((CHROMA_SUBCARRIER / 88.0) * 4.0) * info.bandwidth_scale, filter_type);
-    let q_filter = make_lowpass_for_type(setting.V_BANDWIDTH, ((CHROMA_SUBCARRIER / 88.0)* info.bandwidth_scale, filter_type);
+    let i_filter = make_lowpass_for_type(1300000.0, ((setting.CHROMA_SUBCARRIER / 88.0) * 4.0) * info.bandwidth_scale, filter_type);
+    let q_filter = make_lowpass_for_type(setting.V_BANDWIDTH, ((setting.CHROMA_SUBCARRIER / 88.0)* info.bandwidth_scale, filter_type);
 
     let width = frame.dimensions.0;
 
@@ -223,7 +223,7 @@ fn composite_chroma_lowpass(frame: &mut YiqView, info: &CommonInfo, filter_type:
 
 /// Apply a less intense lowpass filter to the input chroma.
 fn composite_chroma_lowpass_lite(frame: &mut YiqView, info: &CommonInfo, filter_type: FilterType, setting: &mut PALparams) {
-    let filter = make_lowpass_for_type(2600000.0, ((CHROMA_SUBCARRIER / 88.0) * info.bandwidth_scale, filter_type);
+    let filter = make_lowpass_for_type(2600000.0, ((setting.CHROMA_SUBCARRIER / 88.0) * info.bandwidth_scale, filter_type);
 
     let width = frame.dimensions.0;
 
