@@ -1024,7 +1024,7 @@ impl NtscEffect {
 
         if self.composite_preemphasis > 0.0 {
             let preemphasis_filter = make_lowpass(
-                (CHROMA_SUBCARRIER / 88.0 / 2.0) * self.bandwidth_scale,
+                (PALparams.CHROMA_SUBCARRIER / 88.0 / 2.0) * self.bandwidth_scale,
                 NTSC_RATE * self.bandwidth_scale,
             );
             filter_plane(
@@ -1213,7 +1213,6 @@ impl NtscEffect {
             chroma_vert_blend(yiq);
         }
 
-        use crate::settings;
         match self.chroma_lowpass_out {
             ChromaLowpass::Full => {
                 composite_chroma_lowpass(yiq, &info, self.filter_type,  &mut settings::PALparams);
