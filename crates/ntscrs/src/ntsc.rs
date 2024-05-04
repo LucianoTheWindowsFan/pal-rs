@@ -13,9 +13,21 @@ use crate::{
     random::{Geometric, Seeder},
     shift::{shift_row, shift_row_to, BoundaryHandling},
     yiq_fielding::{YiqField, YiqOwned, YiqView},
-    settings::PALparams::{CHROMA_SUBCARRIER, V_BANDWITDTH},
 };
 
+use settings::PALparams;
+
+pub struct Solution {}
+
+impl Solution {
+    pub fn pal_params(root: PALparams) -> PALparams { ... }
+}
+
+fn main() {
+    let params = PALparams::new(1);
+    let result = Solution::pal_params(params);
+}
+    
 pub use crate::settings::*;
 
 /// Settings common to each invocation of the effect. Passed to each individual effect function.
