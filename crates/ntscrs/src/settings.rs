@@ -973,12 +973,12 @@ impl SettingsList {
                         },
                         MenuItem {
                             label: "PAL-M ",
-                            description: Some("PAL variant used in Brazil. It has the same color subcarrier frequency as NTSC."),
+                            description: Some("PAL variant used in Brazil. Has a different color subcarrier."),
                             index: PALmode::BraPAL.to_u32().unwrap(),
                         },
                         MenuItem {
                             label: "PAL-N ",
-                            description: Some("Another South American PAL variant, this time used in Argentina, Paraguay and Uruguay. Besides the different color subcarrier frequency, it also uses the same color space as SECAM."),
+                            description: Some("Another South American PAL variant, this time used in Argentina, Paraguay and Uruguay. Has a different color subcarrier."),
                             index: PALmode::ArgPAL.to_u32().unwrap(),
                         },
                     ],
@@ -1098,7 +1098,7 @@ impl SettingsList {
             },
             SettingDescriptor {
                 label: "Composite preemphasis ",
-                description: Some("Boost high frequencies in the NTSC signal, sharpening the image and intensifying colors."),
+                description: Some("Boost high frequencies in the PAL signal, sharpening the image and intensifying colors."),
                 kind: SettingKind::FloatRange {
                     range: 0.0..=2.0,
                     logarithmic: false,
@@ -1108,7 +1108,7 @@ impl SettingsList {
             },
             SettingDescriptor {
                 label: "Composite noise ",
-                description: Some("Apply noise to the NTSC signal."),
+                description: Some("Apply noise to the PAL signal."),
                 kind: SettingKind::Percentage {
                     logarithmic: true,
                     default_value: default_settings.composite_noise_intensity,
