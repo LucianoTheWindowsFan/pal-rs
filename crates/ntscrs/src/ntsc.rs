@@ -16,7 +16,7 @@ use crate::{
 };
 
 pub use crate::settings::*;
-    
+pub fn (frame: &mut YiqView, filter_mode: LumaLowpass)
 
 /// Settings common to each invocation of the effect. Passed to each individual effect function.
 struct CommonInfo {
@@ -219,9 +219,9 @@ fn luma_filter(frame: &mut YiqView, filter_mode: LumaLowpass) {
 /// Apply a lowpass filter to the input chroma, emulating broadcast NTSC's bandwidth cutoffs.
 /// (Well, almost--Wikipedia (https://en.wikipedia.org/wiki/YIQ) puts the Q bandwidth at 0.4 MHz, not 0.6. Although
 /// that statement seems unsourced and I can't find any info on it...
-fn composite_chroma_lowpass(frame: &mut YiqView, info: &CommonInfo, filter_type: FilterType) {
+fn composite_chroma_lowpass(frame: &mut YiqView, info: &CommonInfo, filter_type: FilterType, setting: &mut PALparams) {
     let i_filter = make_lowpass_for_type(1300000.0, NTSC_RATE * info.bandwidth_scale, filter_type);
-    let q_filter = make_lowpass_for_type(V_BANDWIDTH, NTSC_RATE * info.bandwidth_scale, filter_type);
+    let q_filter = make_lowpass_for_type(setting.V_BANDWIDTH, NTSC_RATE * info.bandwidth_scale, filter_type);
 
     let width = frame.dimensions.0;
 
