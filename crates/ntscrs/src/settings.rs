@@ -165,10 +165,6 @@ impl Default for VHSSettings {
 }
 
 #[derive(Clone, Copy, Debug, PartialEq)]
-pub(crate) struct PALparams {
-    chroma_subcarrier: f32,
-    v_bandwidth: f32,
-}
     pub const CHROMA_SUBCARRIER: f32 = 0.0;
     pub const V_BANDWIDTH: f32 = 1.0;
 
@@ -176,16 +172,16 @@ impl PALmode {
     pub(crate) fn filter_params(&self) -> PALparams {
         match self {
             PALmode::EurPAL => PALparams {
-                chroma_subcarrier: 390158450.0,
-                v_bandwidth: 1300000.0,
+                CHROMA_SUBCARRIER: 390158450.0,
+                V_BANDWIDTH: 1300000.0,
             },
             PALmode::BraPAL => PALparams {
-                chroma_subcarrier: 314653778.0,
-                v_bandwidth: 600000.0,
+                CHROMA_SUBCARRIER: 314653778.0,
+                V_BANDWIDTH: 600000.0,
             },
             PALmode::ArgPAL => PALparams {
-                chroma_subcarrier: 315220950.0,
-                v_bandwidth: 600000.0,
+                CHROMA_SUBCARRIER: 315220950.0,
+                V_BANDWIDTH: 600000.0,
             },
         }
     }
