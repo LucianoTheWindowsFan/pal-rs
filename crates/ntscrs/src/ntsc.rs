@@ -24,11 +24,6 @@ struct CommonInfo {
     frame_num: usize,
     bandwidth_scale: f32,
 }
-
-pub fn PALparams {
-            CHROMA_SUBCARRIER,
-            V_BANDWIDTH,
-        }
     
 // 315/88 Mhz rate * 4
 // TODO: why do we multiply by 4? composite-video-simulator does this for every filter and ntscqt defines NTSC_RATE the
