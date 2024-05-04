@@ -23,11 +23,15 @@ struct CommonInfo {
     frame_num: usize,
     bandwidth_scale: f32,
 }
-
+ let PALparams {
+                    chroma_subcarrier,
+                    v_bandwidth,
+                } 
+     
 // 315/88 Mhz rate * 4
 // TODO: why do we multiply by 4? composite-video-simulator does this for every filter and ntscqt defines NTSC_RATE the
 // same way as we do here.
-const NTSC_RATE: f32 = (CHROMA_SUBCARRIER / 88.0) * 4.0;
+const NTSC_RATE: f32 = (chroma_subcarrier / 88.0) * 4.0;
 
 /// Create a simple constant-k lowpass filter with the given frequency cutoff, which can then be used to filter a signal.
 pub fn make_lowpass(cutoff: f32, rate: f32) -> TransferFunction {
@@ -218,7 +222,7 @@ fn luma_filter(frame: &mut YiqView, filter_mode: LumaLowpass) {
 /// that statement seems unsourced and I can't find any info on it...
 fn composite_chroma_lowpass(frame: &mut YiqView, info: &CommonInfo, filter_type: FilterType) {
     let i_filter = make_lowpass_for_type(1300000.0, NTSC_RATE * info.bandwidth_scale, filter_type);
-    let q_filter = make_lowpass_for_type(V_BANDWIDTH, NTSC_RATE * info.bandwidth_scale, filter_type);
+    let q_filter = make_lowpass_for_type(v_bandwidth, NTSC_RATE * info.bandwidth_scale, filter_type);
 
     let width = frame.dimensions.0;
 
@@ -1020,7 +1024,7 @@ impl NtscEffect {
 
         if self.composite_preemphasis > 0.0 {
             let preemphasis_filter = make_lowpass(
-                (CHROMA_SUBCARRIER / 88.0 / 2.0) * self.bandwidth_scale,
+                (chroma_subcarrier / 88.0 / 2.0) * self.bandwidth_scale,
                 NTSC_RATE * self.bandwidth_scale,
             );
             filter_plane(
