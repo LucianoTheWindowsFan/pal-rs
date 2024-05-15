@@ -1,6 +1,6 @@
 [package]
-name = "palrs"
-version = "1.0.0"
+name = "ntscrs"
+version = "0.1.2"
 edition = "2021"
 license = "MIT OR ISC OR Apache-2.0"
 repository = "https://github.com/valadaptive/ntsc-rs/tree/main/crates/ntscrs"
