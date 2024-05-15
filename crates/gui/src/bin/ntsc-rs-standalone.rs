@@ -2703,8 +2703,8 @@ impl NtscApp {
                     ui.spacing_mut().item_spacing.x = 0.0;
                     ui.label("by ");
                     ui.add(egui::Hyperlink::from_label_and_url(
-                        "valadaptive",
-                        "https://github.com/valadaptive/",
+                        "LucianoTheWindowsFan",
+                        "https://github.com/LucianoTheWindowsFan/",
                     ));
                 });
 
@@ -2712,10 +2712,17 @@ impl NtscApp {
                     ui.spacing_mut().item_spacing.x = 0.0;
                     ui.label("...loosely based on ");
                     ui.add(egui::Hyperlink::from_label_and_url(
-                        "JargeZ/ntscqt",
-                        "https://github.com/JargeZ/ntscqt/",
+                        "valadaptive/ntsc-rs",
+                        "https://github.com/valadaptive/ntsc-rs/",
                     ));
                 });
+
+                ui.horizontal_wrapped(|ui| {
+                    ui.spacing_mut().item_spacing.x = 0.0;
+                    ui.label("...irself based on ");
+                    ui.add(egui::Hyperlink::from_label_and_url(
+                        "JargeZ/ntscqt",
+                        "https://github.com/JargeZ/ntscqt/",
 
                 ui.horizontal_wrapped(|ui| {
                     ui.spacing_mut().item_spacing.x = 0.0;
