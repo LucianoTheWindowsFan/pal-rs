@@ -1,6 +1,6 @@
-# ntsc-rs OpenFX plugin
+# pal-rs OpenFX plugin
 
-ntsc-rs can be used as an OpenFX plugin! The plugin can be found under the "Filter" category.
+pal-rs can be used as an OpenFX plugin! The plugin can be found under the "Filter" category.
 
 A lot of different video software supports OpenFX plugins, including:
 - Natron (tested; working)
@@ -39,21 +39,21 @@ platform](https://openfx.readthedocs.io/en/main/Reference/ofxPackaging.html#inst
 
 ### Effect Order and Transforms
 
-NTSC video itself is quite low-resolution--only 480 lines of vertical resolution. As such, you should apply it to 480p
+PAL video itself is quite low-resolution--only 576 (480 in PAL-M and PAL60) lines of vertical resolution. As such, you should apply it to 576p (480p for PAL-M and PAL60)
 footage for best results (both for performance reasons and correctness reasons).
 
 When doing so, you should be aware of your timeline resolution, and whether effects like ntsc-rs are applied before or
 after its recipient video clip gets resized to fit the timeline.
 
-If, for example, you place a 480p clip in a 1080p timeline, and add the ntsc-rs effect to it, things could go one of two
+If, for example, you place a 576p clip in a 1080p timeline, and add the pal-rs effect to it, things could go one of two
 ways, depending on what editing software you use:
 
-- Your editing software applies the ntsc-rs effect to the 480p clip, and then scales it up to 1080p to fit the timeline.
+- Your editing software applies the pal-rs effect to the 576p clip, and then scales it up to 1080p to fit the timeline.
   All is well.
-- Your editing software *first* scales the 480p clip up to 1008p, *then* applies ntsc-rs. This will produce sub-par,
-  possibly unintended results, and ntsc-rs will run much slower because it has to process a 1080p clip.
+- Your editing software *first* scales the 576p clip up to 1008p, *then* applies ntsc-rs. This will produce sub-par,
+  possibly unintended results, and pal-rs will run much slower because it has to process a 1080p clip.
 
-In particular, effects applied to a clip in DaVinci Resolve behave the second way. Don't apply the ntsc-rs effect to a
+In particular, effects applied to a clip in DaVinci Resolve behave the second way. Don't apply the pal-rs effect to a
 low-resolution clip in a high-resolution timeline! Instead, either create a new timeline that matches your clip's
 resolution and apply the effect there, or apply the effect in the Fusion panel, where it will be applied prior to
 scaling the clip.
@@ -63,11 +63,11 @@ scaling the clip.
 OpenFX doesn't specify the color space that effects should operate in. Some editing software (e.g. Natron) performs all
 effect processing in linear space, whereas other software (e.g. Resolve) seems to do it in sRGB space.
 
-ntsc-rs expects its input to be in sRGB space. If it isn't, the output will appear incorrect--dark areas of the image
+pal-rs expects its input to be in sRGB space. If it isn't, the output will appear incorrect--dark areas of the image
 will appear to "glow" and become oversaturated.
 
 Long story short:
-- If you use ntsc-rs and notice that dark, desaturated areas of the image become brighter and more saturated, while the
+- If you use pal-rs and notice that dark, desaturated areas of the image become brighter and more saturated, while the
   rest of the image appears more washed-out, check the "Apply sRGB Gamma" box at the bottom of the effect controls.
-- If you use ntsc-rs and notice that dark areas of the image become even darker and blown-out, *un*check the "Apply sRGB
+- If you use pal-rs and notice that dark areas of the image become even darker and blown-out, *un*check the "Apply sRGB
   Gamma" box at the bottom of the effect controls.
