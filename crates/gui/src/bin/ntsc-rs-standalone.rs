@@ -2695,7 +2695,7 @@ impl NtscApp {
             .default_width(400.0)
             .show(ctx, |ui| {
                 const VERSION: &str = env!("CARGO_PKG_VERSION");
-                ui.heading(format!("ntsc-rs v{VERSION}"));
+                ui.heading(format!("pal-rs v{VERSION}"));
 
                 ui.separator();
 
@@ -2723,6 +2723,8 @@ impl NtscApp {
                     ui.add(egui::Hyperlink::from_label_and_url(
                         "JargeZ/ntscqt",
                         "https://github.com/JargeZ/ntscqt/",
+                    ));
+                });
 
                 ui.horizontal_wrapped(|ui| {
                     ui.spacing_mut().item_spacing.x = 0.0;
