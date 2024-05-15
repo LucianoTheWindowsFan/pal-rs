@@ -193,7 +193,7 @@ unsafe fn action_describe(descriptor: OfxImageEffectHandle) -> OfxResult<()> {
         effectProps,
         ofx_str!(kOfxPropLabel),
         0,
-        static_cstr!("NTSC-rs").as_ptr(),
+        static_cstr!("PAL-rs").as_ptr(),
     );
 
     propSetString(
@@ -1603,7 +1603,7 @@ pub extern "C" fn OfxGetPlugin(nth: c_int) -> *const OfxPlugin {
                 // I think this cast is OK?
                 pluginApi: ofx_str!(kOfxImageEffectPluginApi),
                 apiVersion: 1,
-                pluginIdentifier: static_cstr!("wtf.vala:NtscRs").as_ptr(),
+                pluginIdentifier: static_cstr!("wtf.ltwf:PalRs").as_ptr(),
                 pluginVersionMajor: 1,
                 pluginVersionMinor: 4,
                 setHost: Some(set_host_info),
