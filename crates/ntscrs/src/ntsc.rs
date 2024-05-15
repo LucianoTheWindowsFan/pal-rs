@@ -17,12 +17,10 @@ use crate::{
 
 pub use crate::settings::*;
 
-/// Settings common to each invocation of the effect. Passed to each individual effect function.
-struct CommonInfo {
-    seed: u64,
-    frame_num: usize,
-    bandwidth_scale: f32,
-}
+// 315/88 Mhz rate * 4
+// TODO: why do we multiply by 4? composite-video-simulator does this for every filter and ntscqt defines NTSC_RATE the
+// same way as we do here.
+const NTSC_RATE: f32 = (390158450.0 / 88.0) * 4.0;
 
 /// Create a simple constant-k lowpass filter with the given frequency cutoff, which can then be used to filter a signal.
 pub fn make_lowpass(cutoff: f32, rate: f32) -> TransferFunction {
@@ -174,6 +172,13 @@ fn filter_plane_with_rows<const ROWS: usize>(
     });
 }
 
+/// Settings common to each invocation of the effect. Passed to each individual effect function.
+struct CommonInfo {
+    seed: u64,
+    frame_num: usize,
+    bandwidth_scale: f32,
+}
+
 fn luma_filter(frame: &mut YiqView, filter_mode: LumaLowpass) {
     match filter_mode {
         LumaLowpass::None => {}
@@ -211,9 +216,9 @@ fn luma_filter(frame: &mut YiqView, filter_mode: LumaLowpass) {
 /// Apply a lowpass filter to the input chroma, emulating broadcast NTSC's bandwidth cutoffs.
 /// (Well, almost--Wikipedia (https://en.wikipedia.org/wiki/YIQ) puts the Q bandwidth at 0.4 MHz, not 0.6. Although
 /// that statement seems unsourced and I can't find any info on it...
-fn composite_chroma_lowpass(frame: &mut YiqView, info: &CommonInfo, filter_type: FilterType, setting: &mut PALparams) {
-    let i_filter = make_lowpass_for_type(1300000.0, <(setting.CHROMA_SUBCARRIER / 88.0) * 4.0> * info.bandwidth_scale, filter_type);
-    let q_filter = make_lowpass_for_type(setting.V_BANDWIDTH, <(setting.CHROMA_SUBCARRIER / 88.0> * info.bandwidth_scale, filter_type);
+fn composite_chroma_lowpass(frame: &mut YiqView, info: &CommonInfo, filter_type: FilterType) {
+    let i_filter = make_lowpass_for_type(1300000.0, NTSC_RATE * info.bandwidth_scale, filter_type);
+    let q_filter = make_lowpass_for_type(1300000.0, NTSC_RATE * info.bandwidth_scale, filter_type);
 
     let width = frame.dimensions.0;
 
@@ -222,8 +227,8 @@ fn composite_chroma_lowpass(frame: &mut YiqView, info: &CommonInfo, filter_type:
 }
 
 /// Apply a less intense lowpass filter to the input chroma.
-fn composite_chroma_lowpass_lite(frame: &mut YiqView, info: &CommonInfo, filter_type: FilterType, setting: &mut PALparams) {
-    let filter = make_lowpass_for_type(2600000.0, ((setting.CHROMA_SUBCARRIER / 88.0) * info.bandwidth_scale, filter_type);
+fn composite_chroma_lowpass_lite(frame: &mut YiqView, info: &CommonInfo, filter_type: FilterType) {
+    let filter = make_lowpass_for_type(2600000.0, NTSC_RATE * info.bandwidth_scale, filter_type);
 
     let width = frame.dimensions.0;
 
@@ -310,45 +315,29 @@ fn demodulate_chroma(chroma: f32, index: usize, xi: usize, i: &mut [f32], q: &mu
 }
 
 /// Demodulate the chrominance signal using a box filter to separate it out.
-fn luma_into_chroma_line_box(y: &mut [f32], i: &mut [f32], q: &mut [f32], xi: usize) {
-    let mut delay = VecDeque::<f32>::with_capacity(4);
-    delay.push_back(16.0 / 255.0);
-    delay.push_back(16.0 / 255.0);
-    delay.push_back(y[0]);
-    delay.push_back(y[1]);
-    let mut sum: f32 = delay.iter().sum();
-    let width = y.len();
-
-    for index in 0..width {
-        // Box-blur the signal to get the luminance.
-        let c = y[usize::min(index + 2, width - 1)];
-        sum -= delay.pop_front().unwrap();
-        delay.push_back(c);
-        sum += c;
-        y[index] = sum * 0.25;
-
-        let chroma = c - y[index];
-        demodulate_chroma(chroma, index, xi, i, q);
-    }
-}
-
-fn luma_into_chroma_line_iir(
+fn luma_into_chroma_line_box(
     y: &mut [f32],
     i: &mut [f32],
     q: &mut [f32],
     scratch: &mut [f32],
-    filter: &TransferFunction,
-    delay: usize,
     xi: usize,
 ) {
     let width = y.len();
-    filter.filter_signal_into(y, scratch, 0.0, 1.0, delay);
-
     for index in 0..width {
-        let chroma = scratch[index] - y[index];
-        y[index] = scratch[index];
+        let c = y[usize::min(index + 2, width - 1)];
+        let area = [
+            y.get(index.wrapping_sub(1))
+                .cloned()
+                .unwrap_or(16.0 / 255.0),
+            y[index],
+            y[(index + 1).min(width - 1)],
+            y[(index + 2).min(width - 1)],
+        ];
+        scratch[index] = area.iter().sum::<f32>() * 0.25;
+        let chroma = c - scratch[index];
         demodulate_chroma(chroma, index, xi, i, q);
     }
+    y.copy_from_slice(scratch);
 }
 
 /// Demodulate the chroma signal from the Y (luma) plane back into the I and Q planes.
@@ -364,58 +353,64 @@ fn luma_into_chroma(
     let width = yiq.dimensions.0;
 
     match filter_mode {
-        ChromaDemodulationFilter::Box | ChromaDemodulationFilter::Notch => {
+        ChromaDemodulationFilter::Box => {
             let y_lines = yiq.y.par_chunks_mut(width);
             let i_lines = yiq.i.par_chunks_mut(width);
             let q_lines = yiq.q.par_chunks_mut(width);
+            let scratch_lines = scratch_buffer.get().par_chunks_mut(width);
 
-            match filter_mode {
-                ChromaDemodulationFilter::Box => {
-                    y_lines.zip(i_lines.zip(q_lines)).enumerate().for_each(
-                        |(index, (y, (i, q)))| {
-                            let xi = chroma_phase_shift(
-                                phase_shift,
-                                phase_offset,
-                                info.frame_num,
-                                index * 2,
-                            );
+            y_lines
+                .zip(i_lines.zip(q_lines.zip(scratch_lines)))
+                .enumerate()
+                .for_each(|(index, (y, (i, (q, scratch))))| {
+                    let xi =
+                        chroma_phase_shift(phase_shift, phase_offset, info.frame_num, index * 2);
 
-                            luma_into_chroma_line_box(y, i, q, xi);
-                        },
-                    );
-                }
-                ChromaDemodulationFilter::Notch => {
-                    let scratch = scratch_buffer.get();
-                    let filter: TransferFunction = make_notch_filter(0.5, 2.0);
-                    (y_lines.zip(scratch.par_chunks_mut(width)))
-                        .zip(i_lines.zip(q_lines))
-                        .enumerate()
-                        .for_each(|(index, ((y, scratch), (i, q)))| {
-                            let xi = chroma_phase_shift(
-                                phase_shift,
-                                phase_offset,
-                                info.frame_num,
-                                index * 2,
-                            );
+                    luma_into_chroma_line_box(y, i, q, scratch, xi);
+                });
+        }
+        ChromaDemodulationFilter::Notch => {
+            let scratch = scratch_buffer.get();
+            let filter: TransferFunction = make_notch_filter(0.5, 2.0);
+            scratch.copy_from_slice(yiq.y);
+            filter_plane(yiq.y, width, &filter, InitialCondition::Zero, 1.0, 1);
 
-                            luma_into_chroma_line_iir(y, i, q, scratch, &filter, 1, xi);
-                        });
-                }
-                _ => unreachable!(),
-            }
+            let y_lines = yiq.y.par_chunks_mut(width);
+            let i_lines = yiq.i.par_chunks_mut(width);
+            let q_lines = yiq.q.par_chunks_mut(width);
+            let scratch_lines = scratch_buffer.get().par_chunks_mut(width);
+
+            y_lines
+                .zip(i_lines.zip(q_lines.zip(scratch_lines)))
+                .enumerate()
+                .for_each(|(index, (y, (i, (q, scratch))))| {
+                    let xi =
+                        chroma_phase_shift(phase_shift, phase_offset, info.frame_num, index * 2);
+
+                    for index in 0..width {
+                        let chroma = y[index] - scratch[index];
+                        demodulate_chroma(chroma, index, xi, i, q);
+                    }
+                });
         }
         ChromaDemodulationFilter::OneLineComb => {
-            let mut delay = Vec::from(&yiq.y[width..width * 2]);
-            let y_lines = yiq.y.chunks_mut(width);
-            let i_lines = yiq.i.chunks_mut(width);
-            let q_lines = yiq.q.chunks_mut(width);
+            let delay = scratch_buffer.get();
+            // "Reflect" line 2 to line 0, so that the chroma is properly demodulated.
+            // A comb filter requires the phase of the chroma carrier to alternate per line, so simply repeating line 1
+            // wouldn't work.
+            delay[0..width].copy_from_slice(&yiq.y[width..width * 2]);
+            delay[width..].copy_from_slice(&yiq.y[0..yiq.y.len() - width]);
+
+            let y_lines = yiq.y.par_chunks_mut(width);
+            let i_lines = yiq.i.par_chunks_mut(width);
+            let q_lines = yiq.q.par_chunks_mut(width);
+            let delay_lines = delay.par_chunks_mut(width);
             y_lines
-                .zip(i_lines.zip(q_lines))
+                .zip(i_lines.zip(q_lines.zip(delay_lines)))
                 .enumerate()
-                .for_each(|(line_index, (y, (i, q)))| {
+                .for_each(|(line_index, (y, (i, (q, delay))))| {
                     for index in 0..width {
                         let blended = (y[index] + delay[index]) * 0.5;
-                        delay[index] = y[index];
                         let chroma = blended - y[index];
                         y[index] = blended;
                         let xi = chroma_phase_shift(
@@ -429,43 +424,49 @@ fn luma_into_chroma(
                 });
         }
         ChromaDemodulationFilter::TwoLineComb => {
-            // This holds the "previous" line--we overwrite in place so we need to cache the previous line's
-            // non-filtered value. It starts out as the second line in order to maintain the checkerboard pattern
-            // and essentially make the first line a 1-line comb filter.
-            let mut delay = Vec::from(&yiq.y[width..width * 2]);
+            let modulated = scratch_buffer.get();
+            modulated.copy_from_slice(yiq.y);
+            let height = yiq.num_rows();
 
-            for line_index in 0..yiq.num_rows() {
-                for sample_index in 0..width {
-                    let prev_line = delay[sample_index];
-                    let next_line = yiq
-                        .y
-                        .get((line_index + 1) * width + sample_index)
-                        .cloned()
-                        // On the last line, blend with the above line twice (making it an average of the 2) since
-                        // there's no line after it to average with
-                        .unwrap_or(prev_line);
-                    let cur_line = &mut yiq.y[line_index * width + sample_index];
+            let y_lines = yiq.y.par_chunks_mut(width);
+            let i_lines = yiq.i.par_chunks_mut(width);
+            let q_lines = yiq.q.par_chunks_mut(width);
+            y_lines
+                .zip(i_lines.zip(q_lines))
+                .enumerate()
+                .for_each(|(line_index, (y, (i, q)))| {
+                    // For the first line, both prev_line and next_line point to the second line. This effecively makes it a
+                    // one-line comb filter for that line.
+                    let prev_index = if line_index == 0 { 1 } else { line_index - 1 };
 
-                    let blended = (*cur_line * 0.5) + (prev_line * 0.25) + (next_line * 0.25);
-                    let chroma = blended - *cur_line;
-                    delay[sample_index] = *cur_line;
-                    *cur_line = blended;
+                    // Similar for the last line.
+                    let next_index = if line_index == height - 1 {
+                        height - 2
+                    } else {
+                        line_index + 1
+                    };
 
-                    let xi = chroma_phase_shift(
-                        phase_shift,
-                        phase_offset,
-                        info.frame_num,
-                        line_index * 2,
-                    );
-                    demodulate_chroma(
-                        chroma,
-                        sample_index,
-                        xi,
-                        &mut yiq.i[line_index * width..(line_index + 1) * width],
-                        &mut yiq.q[line_index * width..(line_index + 1) * width],
-                    );
-                }
-            }
+                    let prev_line = &modulated[prev_index * width..(prev_index + 1) * width];
+                    let cur_line = &modulated[line_index * width..(line_index + 1) * width];
+                    let next_line = &modulated[next_index * width..(next_index + 1) * width];
+
+                    for sample_index in 0..width {
+                        let cur_sample = cur_line[sample_index];
+                        let blended = (cur_sample * 0.5)
+                            + (prev_line[sample_index] * 0.25)
+                            + (next_line[sample_index] * 0.25);
+                        let chroma = blended - cur_sample;
+                        y[sample_index] = blended;
+
+                        let xi = chroma_phase_shift(
+                            phase_shift,
+                            phase_offset,
+                            info.frame_num,
+                            line_index * 2,
+                        );
+                        demodulate_chroma(chroma, sample_index, xi, i, q);
+                    }
+                });
         }
     };
 }
@@ -995,13 +996,13 @@ impl NtscEffect {
         let mut scratch_buffer = ScratchBuffer::new(yiq.y.len());
 
         luma_filter(yiq, self.input_luma_filter);
-        
+
         match self.chroma_lowpass_in {
             ChromaLowpass::Full => {
-                composite_chroma_lowpass(yiq, &info, self.filter_type, &mut PALparams { CHROMA_SUBCARRIER: 0.0, V_BANDWIDTH: 0.1 });
+                composite_chroma_lowpass(yiq, &info, self.filter_type);
             }
             ChromaLowpass::Light => {
-                composite_chroma_lowpass_lite(yiq, &info, self.filter_type, &mut PALparams { CHROMA_SUBCARRIER: 0.0, V_BANDWIDTH: 0.1 });
+                composite_chroma_lowpass_lite(yiq, &info, self.filter_type);
             }
             ChromaLowpass::None => {}
         };
@@ -1015,8 +1016,8 @@ impl NtscEffect {
 
         if self.composite_preemphasis > 0.0 {
             let preemphasis_filter = make_lowpass(
-                (CHROMA_SUBCARRIER / 88.0 / 2.0) * self.bandwidth_scale,
-                (CHROMA_SUBCARRIER / 88.0) * self.bandwidth_scale,
+                (390158450.0 / 88.0 / 2.0) * self.bandwidth_scale,
+                NTSC_RATE * self.bandwidth_scale,
             );
             filter_plane(
                 yiq.y,
@@ -1131,12 +1132,12 @@ impl NtscEffect {
                 // TODO: use a better filter! this effect's output looks way more smear-y than real VHS
                 let luma_filter = make_lowpass_for_type(
                     luma_cut,
-                    ((CHROMA_SUBCARRIER / 88.0) * self.bandwidth_scale,
+                    NTSC_RATE * self.bandwidth_scale,
                     self.filter_type,
                 );
                 let chroma_filter = make_lowpass_for_type(
                     chroma_cut,
-                    ((CHROMA_SUBCARRIER / 88.0) * self.bandwidth_scale,
+                    NTSC_RATE * self.bandwidth_scale,
                     self.filter_type,
                 );
                 filter_plane(yiq.y, width, &luma_filter, InitialCondition::Zero, 1.0, 0);
@@ -1156,7 +1157,7 @@ impl NtscEffect {
                     1.0,
                     chroma_delay,
                 );
-                let luma_filter_single = make_lowpass(luma_cut, ((CHROMA_SUBCARRIER / 88.0) * self.bandwidth_scale);
+                let luma_filter_single = make_lowpass(luma_cut, NTSC_RATE * self.bandwidth_scale);
                 filter_plane(
                     yiq.y,
                     width,
@@ -1180,12 +1181,12 @@ impl NtscEffect {
                     };
                     let luma_sharpen_filter = make_lowpass_for_type(
                         luma_cut * frequency_extra_multiplier * sharpen.frequency,
-                        ((CHROMA_SUBCARRIER / 88.0) * self.bandwidth_scale,
+                        NTSC_RATE * self.bandwidth_scale,
                         self.filter_type,
                     );
                     // The composite-video-simulator code sharpens the chroma plane, but ntscqt and this effect do not.
                     // I'm not sure if I'm implementing it wrong, but chroma sharpening looks awful.
-                    // let chroma_sharpen_filter = make_lowpass_triple(chroma_cut * 4.0, 0.0, ((CHROMA_SUBCARRIER / 88.0));
+                    // let chroma_sharpen_filter = make_lowpass_triple(chroma_cut * 4.0, 0.0, NTSC_RATE);
                     filter_plane(
                         yiq.y,
                         width,
@@ -1206,10 +1207,10 @@ impl NtscEffect {
 
         match self.chroma_lowpass_out {
             ChromaLowpass::Full => {
-                composite_chroma_lowpass(yiq, &info, self.filter_type,  &mut PALparams { CHROMA_SUBCARRIER: 0.0, V_BANDWIDTH: 0.1 });
+                composite_chroma_lowpass(yiq, &info, self.filter_type);
             }
             ChromaLowpass::Light => {
-                composite_chroma_lowpass_lite(yiq, &info, self.filter_type,  &mut PALparams { CHROMA_SUBCARRIER: 0.0, V_BANDWIDTH: 0.1 });
+                composite_chroma_lowpass_lite(yiq, &info, self.filter_type);
             }
             ChromaLowpass::None => {}
         };
