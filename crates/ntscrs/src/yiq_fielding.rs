@@ -22,7 +22,7 @@ pub fn yiq_to_rgb([y, i, q]: [f32; 3]) -> [f32; 3] {
     const RGB_MATRIX: Mat3A = Mat3A::from_cols(
         Vec3A::new(1.0, 1.0, 1.0),
         Vec3A::new(0.6, -0.39465, 2.03211),
-        Vec3A::new(1.13983, -0.58060, 0),
+        Vec3A::new(1.13983, -0.58060, 0.0),
     );
 
     (RGB_MATRIX * Vec3A::new(y, i, q)).into()
