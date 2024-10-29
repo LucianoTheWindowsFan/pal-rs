@@ -1076,7 +1076,7 @@ impl NtscEffect {
 
         if self.composite_preemphasis != 0.0 {
             let preemphasis_filter = make_lowpass(
-                (315000000.0 / 88.0 / 2.0) * self.bandwidth_scale,
+                (390158450.0 / 88.0 / 2.0) * self.bandwidth_scale,
                 NTSC_RATE * self.bandwidth_scale,
             );
             filter_plane(
