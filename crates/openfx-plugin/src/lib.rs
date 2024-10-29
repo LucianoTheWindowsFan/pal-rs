@@ -1599,7 +1599,7 @@ pub extern "C" fn OfxGetPlugin(nth: c_int) -> *const OfxPlugin {
             // I think this cast is OK?
             pluginApi: kOfxImageEffectPluginApi.as_ptr(),
             apiVersion: 1,
-            pluginIdentifier: static_cstr!("wtf.vala:NtscRs").as_ptr(),
+            pluginIdentifier: static_cstr!("wtf.vala:PalRs").as_ptr(),
             pluginVersionMajor: VERSION_MINOR
                 .parse()
                 .expect("could not parse minor version"),
