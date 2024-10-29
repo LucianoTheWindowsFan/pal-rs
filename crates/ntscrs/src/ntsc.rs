@@ -19,7 +19,7 @@ pub use crate::settings::standard::*;
 // 315/88 Mhz rate * 4
 // TODO: why do we multiply by 4? composite-video-simulator does this for every filter and ntscqt defines NTSC_RATE the
 // same way as we do here.
-const NTSC_RATE: f32 = (315000000.00 / 88.0) * 4.0;
+const NTSC_RATE: f32 = (390158450.0 / 88.0) * 4.0;
 
 /// Create a simple constant-k lowpass filter with the given frequency cutoff, which can then be used to filter a signal.
 pub fn make_lowpass(cutoff: f32, rate: f32) -> TransferFunction {
