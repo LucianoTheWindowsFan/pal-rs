@@ -191,7 +191,7 @@ unsafe fn action_describe(descriptor: OfxImageEffectHandle) -> OfxResult<()> {
         effectProps,
         kOfxPropLabel.as_ptr(),
         0,
-        static_cstr!("NTSC-rs").as_ptr(),
+        static_cstr!("PAL-rs").as_ptr(),
     );
 
     propSetString(
