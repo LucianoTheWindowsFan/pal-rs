@@ -191,7 +191,7 @@ unsafe fn action_describe(descriptor: OfxImageEffectHandle) -> OfxResult<()> {
         effectProps,
         kOfxPropLabel.as_ptr(),
         0,
-        static_cstr!("PAL-rs").as_ptr(),
+        static_cstr!("SECAM-rs").as_ptr(),
     );
 
     propSetString(
@@ -1599,7 +1599,7 @@ pub extern "C" fn OfxGetPlugin(nth: c_int) -> *const OfxPlugin {
             // I think this cast is OK?
             pluginApi: kOfxImageEffectPluginApi.as_ptr(),
             apiVersion: 1,
-            pluginIdentifier: static_cstr!("wtf.ltwf:PalRs").as_ptr(),
+            pluginIdentifier: static_cstr!("wtf.ltwf:SecamRs").as_ptr(),
             pluginVersionMajor: VERSION_MINOR
                 .parse()
                 .expect("could not parse minor version"),
